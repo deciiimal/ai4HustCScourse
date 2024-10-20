@@ -1,15 +1,4 @@
-import flask 
-from flask import request 
-import json
+import app 
 
-app = flask.Flask(__name__)
-
-@app.route('/user/login', methods=['POST'])
-def login():
-    info = request.json
-    
-    return json.dumps({"comment": "ok"})
-
-@app.route('/')
-def hello_world():
-    return '<p>Hello World</p>'
+if __name__ == "__main__":
+    app = app.create_app()
