@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from models import User, Course, Comment, db
-from utils.decorators import admin_required
+from app.models import User, Course, Comment, db
+from app.utils import admin_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import login_user, login_required, current_user
 # 管理员蓝图

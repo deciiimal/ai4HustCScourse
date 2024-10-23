@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required
-from models import Course, Comment
+from app.models import Course, Comment
 from transformers import pipeline
 # Initialize the sentiment analysis and keyword extraction pipelines
 sentiment_analysis_pipeline = pipeline('sentiment-analysis')

@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from models import Course, db, Comment
+from app.models import Course, db, Comment
 from flask import abort
 from flask_login import current_user
 from flask_jwt_extended import jwt_required, get_jwt_identity
