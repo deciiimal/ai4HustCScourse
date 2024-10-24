@@ -2,8 +2,10 @@ import flask
 import json
 
 from flask_jwt_extended import JWTManager
-from .models import db
+from flask_sqlalchemy import SQLAlchemy
 
+db = SQLAlchemy()
+jwt = JWTManager()
 
 def create_app():
     app = flask.Flask(__name__)
@@ -11,7 +13,7 @@ def create_app():
     app.config.from_file("./config/config.json", load=json.load)
     
     db.init_app(app)
-    jwt = JWTManager(app)
+    jwt.init_app(app)
     
     # 注册蓝图
     from .routes import user_bp

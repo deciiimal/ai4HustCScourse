@@ -1,7 +1,10 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from app.models import Comment, Course, User, db
 #  评论蓝图，前缀为/comments, 下面路由传入的地址前面都必须带上前缀
+
+from app import db
+from app.models import Comment, Course, User
+
 comment_bp = Blueprint('comment', __name__)
 
 @comment_bp.route('/', methods=['POST'])# POST方法用于创建评论

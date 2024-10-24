@@ -1,8 +1,10 @@
-from flask import Blueprint, request, jsonify
-from app.models import Course, db, Comment
-from flask import abort
+from flask import Blueprint, request, jsonify, abort
 from flask_login import current_user
 from flask_jwt_extended import jwt_required, get_jwt_identity
+
+from app import db
+from app.models import Course, Comment
+
 # 课程蓝图
 course_bp = Blueprint('course', __name__)# 创建一个蓝图，蓝图的前缀在app.py中指定
 
