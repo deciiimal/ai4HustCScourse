@@ -1,1 +1,1 @@
-from .decorators import admin_required
+from .authorization import admin_required

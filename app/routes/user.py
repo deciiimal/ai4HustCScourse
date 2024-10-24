@@ -39,10 +39,12 @@ def register():
     db.session.add(user)
     db.session.commit()
     
-    token = create_access_token({
-        "userid": user.userid,
-        "role": user.role
-    })
+    token = create_access_token(
+        identity=user.userid,
+        additional_claims={
+            'role': user.role
+        }
+    )
     
     return make_success_response(
         userid=user.userid,
@@ -78,10 +80,12 @@ def login():
             f'Current user {user.username} is banned'
         )
         
-    token = create_access_token({
-        "userid": user.userid,
-        "role": user.role
-    })
+    token = create_access_token(
+        identity=user.userid,
+        additional_claims={
+            'role': user.role
+        }
+    )
     
     # 登录用户
     return make_success_response(

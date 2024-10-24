@@ -1,4 +1,5 @@
-from .user import User
+from .user import User, Role
+from .star import Star
 from .comment import Comment
 from .course import Course
 
