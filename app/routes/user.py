@@ -49,6 +49,7 @@ def register():
     return make_success_response(
         userid=user.userid,
         username=user.username,
+        role=user.role,
         token=token
     )
 
@@ -91,6 +92,7 @@ def login():
     return make_success_response(
         userid=user.userid,
         username=user.username,
+        role=user.role,
         token=token
     )
 

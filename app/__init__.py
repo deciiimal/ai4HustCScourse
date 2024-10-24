@@ -28,10 +28,10 @@ def create_app():
     app.register_blueprint(user_bp, url_prefix='/user')# url_prefix表示公共前缀
     
     from .routes import course_bp
-    app.register_blueprint(course_bp, url_prefix='/courses')
+    app.register_blueprint(course_bp, url_prefix='/course')
     
     from .routes import comment_bp
-    app.register_blueprint(comment_bp, url_prefix='/comments')
+    app.register_blueprint(comment_bp, url_prefix='/comment')
 
     from .routes import admin_bp
     app.register_blueprint(admin_bp, url_prefix='/admin')

@@ -1,55 +1,96 @@
+from http import HTTPStatus
+
 from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity
+from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from app import db
-from app.models import User, Course, Comment
+from app.models import User, Role, Course, Comment, make_error_response, make_success_response
 from app.utils import admin_required
+
 # 管理员蓝图
 admin_bp = Blueprint('admin', __name__)
 
 # 管理员注册
 @admin_bp.route('/register', methods=['POST'])
-def admin_register():
-    username = request.json.get('username')
-    password = request.json.get('password')
-    admin_invite_code = request.json.get('admin_invite_code')
+def register():
+    info = request.get_json()
+
+    username = info.get('username')
+    password = info.get('password')
+    email = info.get('email')
+    invite_code = info.get('invite_code')
     
-    # 验证管理员邀请码
-    if admin_invite_code != "114514":# 邀请码自己设
-        return jsonify({'error': 'Invalid admin invite code'}), 403
-    
-    # 检查用户名和密码
-    if not username or not password:
-        return jsonify({'error': 'Username and password are required'}), 400
+    if not username or not password or not email or not invite_code or invite_code != "114514":
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            ''
+        )
     
     # 检查用户名是否已存在
     if User.query.filter_by(username=username).first():
-        return jsonify({'error': 'Username already exists'}), 400
-    
-    # 创建管理员用户
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            'Username already exists'
+        )
+        
+    # 创建新用户
     hashed_password = generate_password_hash(password)
-    new_admin = User(username=username, password=hashed_password, role='admin', is_admin=True)
-    db.session.add(new_admin)
+    user: User = User(username=username, password=hashed_password, email=email, role=Role.Admin.value)
+    
+    db.session.add(user)
     db.session.commit()
     
-    return jsonify({'message': 'Admin registered successfully'})
+    token = create_access_token(
+        identity=user.userid,
+        additional_claims={
+            'role': user.role
+        }
+    )
+    
+    return make_success_response(
+        userid=user.userid,
+        username=user.username,
+        role=user.role,
+        token=token
+    )
 
 # 管理员登录
 @admin_bp.route('/login', methods=['POST'])
-def admin_login():
-    username = request.json.get('username')
-    password = request.json.get('password')
+def login():
+    info = request.get_json()
+    
+    username = info.get('username')
+    password = info.get('password')
     if not username or not password:
-        return jsonify({'error': 'Username and password are required'}), 400
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            ''
+        )
     
-    # 查找用户并验证是否为管理员
-    user = User.query.filter_by(username=username, role='admin').first()# user是从数据库中查找到的对象
+    # 查找用户
+    user: User = User.query.filter_by(username=username).first()# 调用User的query方法，filter_by为条件筛选
+
     if not user or not check_password_hash(user.password, password):
-        return jsonify({'error': 'Invalid username or password'}), 401
+        return make_error_response(
+            HTTPStatus.UNAUTHORIZED,
+            'Invalid username or password'
+        )
+        
+    token = create_access_token(
+        identity=user.userid,
+        additional_claims={
+            'role': user.role
+        }
+    )
     
-    # 登录管理员
-    return jsonify({'message': 'Admin logged in successfully'})
+    # 登录用户
+    return make_success_response(
+        userid=user.userid,
+        username=user.username,
+        role=user.role,
+        token=token
+    )
 
 #################################对用户的操作######################################
 

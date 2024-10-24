@@ -16,7 +16,7 @@ class User(db.Model):# 就是一个数据库，里面存放了相同类型的元
     username = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(100), nullable=False)
-    role = db.Column(db.Enum(Role), default=Role.User) # 'user' or 'admin'
+    role = db.Column(db.Integer, default=Role.User.value) # 'user' or 'admin'
     banned = db.Column(db.Boolean, default=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
 
