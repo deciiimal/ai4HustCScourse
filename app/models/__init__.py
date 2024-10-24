@@ -1,5 +1,5 @@
 from .user import User, Role
-from .star import Star
+from .star import CourseStar, CommentStar
 from .comment import Comment
 from .course import Course
 

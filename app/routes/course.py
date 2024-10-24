@@ -1,10 +1,9 @@
 from http import HTTPStatus
 from flask import Blueprint, request, jsonify, abort
-from flask_login import current_user
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app import db
-from app.models import Star, Course, Comment, make_success_response, make_error_response, user
+from app.models import CourseStar, Course, Comment, make_success_response, make_error_response, user
 
 # 课程蓝图
 course_bp = Blueprint('course', __name__)# 创建一个蓝图，蓝图的前缀在app.py中指定
@@ -29,10 +28,10 @@ def like_course(courseid):
             f'no course {courseid}'
         )
 
-    star = Star.query.filter_by(userid=userid, courseid=courseid).first()
+    star = CourseStar.query.filter_by(userid=userid, courseid=courseid).first()
     
     if request.method == 'POST' and star is None:
-        star = Star(userid=userid, courseid=courseid)
+        star = CourseStar(userid=userid, courseid=courseid)
         course.likes_count += 1
         
         db.session.add(star)
