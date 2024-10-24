@@ -1,7 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import login_user, login_required, current_user
 
 from app import db
 from app.models import User, Course, Comment
@@ -50,7 +49,6 @@ def admin_login():
         return jsonify({'error': 'Invalid username or password'}), 401
     
     # 登录管理员
-    login_user(user)
     return jsonify({'message': 'Admin logged in successfully'})
 
 #################################对用户的操作######################################

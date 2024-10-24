@@ -4,7 +4,8 @@ from app import db
 
 
 class Comment(db.Model):
-    '''评论属性有：评论id，用户id，课程id，评论内容，点赞数'''
+    __tablename__ = "Comment"
+    '''评论属性有: 评论id, 用户id, 课程id, 评论内容, 点赞数'''
     commentid = db.Column(db.Integer, primary_key=True)
     userid = db.Column(db.Integer, db.ForeignKey('User.userid'), nullable=False)
     courseid = db.Column(db.Integer, db.ForeignKey('Course.courseid'), nullable=False)

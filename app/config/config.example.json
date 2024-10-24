@@ -1,6 +1,6 @@
 {
     "SECRET_KEY": "123456",
-    "SQLALCHEMY_DATABASE_URI": "mysql+pymysql://{user}:{pwd}@{host}:{port}/{database}",
+    "SQLALCHEMY_DATABASE_URI": "mysql+pymysql://root:123456@127.0.0.1:3306/db",
     "SQLALCHEMY_TRACK_MODIFICATIONS": false,
     "JWT_SECRET_KEY": "654321"
 }

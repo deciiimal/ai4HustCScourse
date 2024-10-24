@@ -4,6 +4,7 @@ from app import db
 
     
 class Course(db.Model):
+    __tablename__ = 'Course'
     '''课程属性有: courseid，coursename，description, like数, comment数'''
     courseid = db.Column(db.Integer, primary_key=True)
     coursename = db.Column(db.String(100), nullable=False)
