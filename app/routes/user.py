@@ -17,7 +17,14 @@ def register():
 
     username = info.get('username')
     password = info.get('password')
+    password2 = info.get("password2")
     email = info.get('email')
+    
+    if not password == password2:
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            'Passwords are not the same'
+        )
     
     if not username or not password or not email:
         return make_error_response(
@@ -81,7 +88,7 @@ def login():
             f'Current user {user.username} is banned'
         )
         
-    token = create_access_token(
+    token = create_access_token(# 把jwt生成并返回给前端
         identity=user.userid,
         additional_claims={
             'role': user.role
@@ -93,7 +100,7 @@ def login():
         userid=user.userid,
         username=user.username,
         role=user.role,
-        token=token
+        token=token# jwt
     )
 
 

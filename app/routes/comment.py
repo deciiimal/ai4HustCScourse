@@ -1,9 +1,9 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 #  评论蓝图，前缀为/comments, 下面路由传入的地址前面都必须带上前缀
-
+from http import HTTPStatus
 from app import db
-from app.models import Comment, Course, User
+from app.models import Comment, Course, User, make_error_response, make_success_response, CommentStar
 
 comment_bp = Blueprint('comment', __name__)
 
@@ -17,13 +17,18 @@ def create_comment():# 创建一条评论
     star = data.get('star')# 获取评论星级
 
     if not Course.query.get(course_id):# 如果没有这个课程
-        return jsonify({'message': 'Course not found'}), 404
+        return make_error_response(
+            HTTPStatus.NOT_FOUND, 
+            'Course not found'
+        )
 
     new_comment = Comment(user_id=current_user['id'], course_id=course_id, content=content, star=star)# 创建一条评论
     db.session.add(new_comment)
     db.session.commit()
 
-    return jsonify({'message': 'Comment created successfully'}), 201
+    return make_success_response(
+        message='Comment created successfully'
+    )
 
 @comment_bp.route('/<int:comment_id>', methods=['PUT'])# put方法用于更新评论
 @jwt_required()
@@ -31,14 +36,25 @@ def update_comment(comment_id):
     current_user = get_jwt_identity()
     comment = Comment.query.get(comment_id)
 
-    if not comment or comment.user_id != current_user['id']:# 只能更新自己的评论
-        return jsonify({'message': 'Comment not found or unauthorized'}), 404
+    if not comment:
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'Comment not found'
+        )
+        
+    if comment.user_id != current_user['id']:# 只能更新自己的评论
+        return make_error_response(
+            HTTPStatus.UNAUTHORIZED,
+            'You can\'t update other user\'s comment'
+        )
 
     data = request.get_json()
     comment.content = data.get('content', comment.content)
     db.session.commit()
 
-    return jsonify({'message': 'Comment updated successfully'}), 200
+    return make_success_response(
+        message='Comment updated successfully'
+    )
 
 @comment_bp.route('/<int:comment_id>', methods=['DELETE'])# 删除评论
 @jwt_required()
@@ -46,38 +62,55 @@ def delete_comment(comment_id):
     current_user = get_jwt_identity()
     comment = Comment.query.get(comment_id)
 
-    if not comment or comment.user_id != current_user['id']:
-        return jsonify({'message': 'Comment not found or unauthorized'}), 404
+    if not comment:
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'Comment not found'
+        )
+    if comment.user_id != current_user['id']:
+        return make_success_response(
+            HTTPStatus.UNAUTHORIZED,
+            'You can\'t delete other user\'s comment'
+        )
 
     db.session.delete(comment)
     db.session.commit()
 
-    return jsonify({'message': 'Comment deleted successfully'}), 200
+    return make_success_response(
+        message='Comment deleted successfully'
+    )
 
-@comment_bp.route('/<int:course_id>', methods=['GET'])# 获取某个课程的所有评论
-def get_comments_by_course(course_id):
-    comments = Comment.query.filter_by(course_id=course_id).all()
-    return jsonify([{'id': c.id, 'user_id': c.user_id, 'content': c.content, 'likes': c.likes} for c in comments])
-
-
-@comment_bp.route('/<int:comment_id>', methods=['POST'])# 点赞评论
+# 获取自己的点赞情况，点赞，取消点赞
+@comment_bp.route('/<int:comment_id>/like', methods=['GET', 'POST', 'DELETE'])
 @jwt_required()
 def like_comment(comment_id):
     current_user = get_jwt_identity()
-    comment = Comment.query.get(comment_id)
-
-    if not comment:
-        return jsonify({'message': 'Comment not found'}), 404
-
-    if current_user['id'] in comment.liked_by:
-        # 如果已经点赞过了, 再点一次就取消点赞
-        comment.likes -= 1
-        comment.liked_by.remove(current_user['id'])
-        db.session.commit()
-        return jsonify({'message': 'Comment unliked successfully'}), 200
-    else:
-        comment.likes += 1
-        comment.liked_by.append(current_user['id'])
-        db.session.commit()
-        return jsonify({'message': 'Comment liked successfully'}), 200
     
+    comment = Comment.query.get(comment_id)
+    if comment is None:
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            f'Comment {comment_id} not found'
+        )
+
+    star = CommentStar.query.filter_by(user_id=current_user['id'], comment_id=comment_id).first()
+    
+    if request.method == 'POST' and star is None:
+        star = CommentStar(user_id=current_user['id'], comment_id=comment_id)
+        comment.likes_count += 1
+        
+        db.session.add(star)
+        db.session.commit()
+    
+    elif request.method == 'DELETE' and star is not None:
+        comment.likes_count -= 1
+        
+        db.session.delete(star)
+        db.session.commit()
+    
+    elif request.method == 'GET':
+        return make_success_response(
+            liked=star is not None
+        )
+        
+    return make_success_response()

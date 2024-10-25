@@ -29,11 +29,6 @@ def get_one_course(courseid):
         course=course
     )
     
-# 新建，删除，更新课程
-@course_bp.route('/<int:courseid>', methods=['POST', 'DELETE', 'UPDATE'])
-@admin_required
-def update_course(courseid):
-    ...
 
 # 获取自己的点赞情况，点赞，取消点赞
 @course_bp.route('/<int:courseid>/like', methods=['GET', 'POST', 'DELETE'])
@@ -76,8 +71,13 @@ def get_course_comments(courseid):
     course = Course.query.get(courseid)
 
     if not course:
-        return jsonify({'message': 'Course not found'}), 404
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'Course not found'
+        )
 
     comments = Comment.query.filter_by(course_id=courseid).all()
     comments_list = [{'id': comment.id, 'user_id': comment.user_id, 'content': comment.content, 'timestamp': comment.timestamp} for comment in comments]
-    return jsonify(comments_list), 200
+    return make_success_response(
+        comments=comments_list
+    )
