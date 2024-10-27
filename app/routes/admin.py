@@ -18,15 +18,8 @@ def register():
 
     username = info.get('username')
     password = info.get('password')
-    password2 = info.get('password2')
     email = info.get('email')
     invite_code = info.get('invite_code')
-    
-    if not password == password2:
-        return make_error_response(
-            HTTPStatus.BAD_REQUEST,
-            'Passwords are not the same'
-        )
     
     if not username or not password or not email or not invite_code or invite_code != "114514":
         '''邀请码之后还需要搞一个数据库存储'''
@@ -103,7 +96,6 @@ def login():
 #################################对用户的操作######################################
 
 @admin_bp.route('/users/<int:user_id>/ban', methods=['POST'])# 对用户禁言
-@jwt_required()# 对jwt字段进行解析，这个字段往往是后端生成发给前端由前端保存，然后对于需要进行身份验证的请求带上
 @admin_required# 对jwt进一步解析，需要是管理员才行
 def ban_user(user_id):
     user = User.query.filter_by(userid=user_id).first()
@@ -123,7 +115,6 @@ def ban_user(user_id):
 
 #################################对课程的操作######################################
 @admin_bp.route('/courses', methods=['POST'])# 加入课程
-@jwt_required()
 @admin_required
 def create_course():
     data = request.get_json()
@@ -135,7 +126,6 @@ def create_course():
     )
 
 @admin_bp.route('/courses/<int:course_id>', methods=['DELETE'])# 删除课程
-@jwt_required()
 @admin_required
 def delete_course(course_id):
     course = Course.query.filter_by(courseid=course_id).first()
@@ -154,7 +144,6 @@ def delete_course(course_id):
 #################################对评论的操作######################################
 
 @admin_bp.route('/comments/<int:comment_id>', methods=['DELETE'])
-@jwt_required()
 @admin_required
 def delete_comment(comment_id):
     comment = Comment.query.filter_by(commentid=comment_id).first()

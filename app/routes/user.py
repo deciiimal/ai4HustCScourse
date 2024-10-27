@@ -17,14 +17,7 @@ def register():
 
     username = info.get('username')
     password = info.get('password')
-    password2 = info.get("password2")
     email = info.get('email')
-    
-    if not password == password2:
-        return make_error_response(
-            HTTPStatus.BAD_REQUEST,
-            'Passwords are not the same'
-        )
     
     if not username or not password or not email:
         return make_error_response(
