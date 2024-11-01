@@ -118,6 +118,22 @@ def ban_user(user_id):
         message = 'User banned successfully'
     )
 
+@admin_bp.route('/users/<int:user_id>/unban', methods=['POST'])# 对用户解禁言
+@admin_required# 对jwt进一步解析，需要是管理员才行
+def unban_user(user_id):
+    user = User.query.filter_by(userid=user_id).first()
+    if not user:
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'User not found'
+        )
+
+    user.banned = False
+    db.session.commit()
+
+    return make_success_response(
+        message = 'User unbanned successfully'
+    )
 
 #################################对课程的操作######################################
 @admin_bp.route('/courses', methods=['POST'])# 加入课程

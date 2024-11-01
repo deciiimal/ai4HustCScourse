@@ -13,6 +13,13 @@ def create_comment():# 创建一条评论
     current_userid = get_jwt_identity()# 返回用户id
     data = request.get_json()
     course_id = data.get('courseid')# 请求的json数据中必须要有course_id和content字段
+    existing_comment = Comment.query.filter_by(userid=current_userid, courseid=course_id).first()
+    if existing_comment:
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            'You have already commented on this course'
+        )
+    
     content = data.get('content')# 获取评论内容
     star = data.get('star')# 获取评论星级
 
@@ -23,12 +30,18 @@ def create_comment():# 创建一条评论
             'You are banned by administator, please contact admin for more information'
         )
     
-    if not Course.query.get(course_id):# 如果没有这个课程
+    if not Course.query.get(course_id):# get方法还真能用，可能就是匹配第一个是不是course_id
         return make_error_response(
             HTTPStatus.NOT_FOUND, 
             'Course not found'
         )
 
+    if star not in [1,2,3,4,5]:
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            'Star must be an integer between 1 and 5'
+        )
+    
     new_comment = Comment(userid=current_userid, courseid=course_id, content=content, star=star)# 创建一条评论
     db.session.add(new_comment)
     db.session.commit()
@@ -49,7 +62,7 @@ def update_comment(comment_id):
             'Comment not found'
         )
         
-    if comment.user_id != current_user:# 只能更新自己的评论
+    if comment.userid != current_user:# 只能更新自己的评论
         return make_error_response(
             HTTPStatus.UNAUTHORIZED,
             'You can\'t update other user\'s comment'
@@ -76,7 +89,7 @@ def delete_comment(comment_id):
             HTTPStatus.NOT_FOUND,
             'Comment not found'
         )
-    if comment.user_id != current_user:
+    if comment.userid != current_user:
         return make_success_response(
             HTTPStatus.UNAUTHORIZED,
             'You can\'t delete other user\'s comment'

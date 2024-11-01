@@ -75,12 +75,6 @@ def login():
             'Invalid username or password'
         )
         
-    if user.banned:
-        return make_error_response(
-            HTTPStatus.UNAUTHORIZED,
-            f'Current user {user.username} is banned'
-        )
-        
     token = create_access_token(# 把jwt生成并返回给前端
         identity=user.userid,
         additional_claims={
