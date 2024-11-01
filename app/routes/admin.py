@@ -21,10 +21,17 @@ def register():
     email = info.get('email')
     invite_code = info.get('invite_code')
     
-    if not username or not password or not email or not invite_code or invite_code != "114514":
+    if not username or not password or not email or not invite_code:
         return make_error_response(
             HTTPStatus.BAD_REQUEST,
-            ''
+            'Username, password, email and invite_code are required'
+        )
+    
+    if invite_code != "114514":
+        '''邀请码之后还需要搞一个数据库存储'''
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            'invite_code is not exist or invalid'
         )
     
     # 检查用户名是否已存在
@@ -65,7 +72,7 @@ def login():
     if not username or not password:
         return make_error_response(
             HTTPStatus.BAD_REQUEST,
-            ''
+            'username and password are required'
         )
     
     # 查找用户
@@ -89,60 +96,89 @@ def login():
         userid=user.userid,
         username=user.username,
         role=user.role,
-        token=token
+        userInfo=token
     )
 
 #################################对用户的操作######################################
 
 @admin_bp.route('/users/<int:user_id>/ban', methods=['POST'])# 对用户禁言
-@jwt_required()# 对jwt字段进行解析，这个字段往往是后端生成发给前端由前端保存，然后对于需要进行身份验证的请求带上
 @admin_required# 对jwt进一步解析，需要是管理员才行
 def ban_user(user_id):
-    user = User.query.get(user_id)
+    user = User.query.filter_by(userid=user_id).first()
     if not user:
-        return jsonify({'message': 'User not found'}), 404
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'User not found'
+        )
 
-    user.is_banned = True
+    user.banned = True
     db.session.commit()
 
-    return jsonify({'message': 'User banned successfully'})
+    return make_success_response(
+        message = 'User banned successfully'
+    )
 
+@admin_bp.route('/users/<int:user_id>/unban', methods=['POST'])# 对用户解禁言
+@admin_required# 对jwt进一步解析，需要是管理员才行
+def unban_user(user_id):
+    user = User.query.filter_by(userid=user_id).first()
+    if not user:
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'User not found'
+        )
+
+    user.banned = False
+    db.session.commit()
+
+    return make_success_response(
+        message = 'User unbanned successfully'
+    )
 
 #################################对课程的操作######################################
 @admin_bp.route('/courses', methods=['POST'])# 加入课程
-@jwt_required()
 @admin_required
 def create_course():
     data = request.get_json()
-    new_course = Course(name=data['name'], description=data['description'])
+    # courseid 自动加，就不用处理了
+    new_course = Course(coursename=data['name'], description=data['description'])
     db.session.add(new_course)
     db.session.commit()
-    return jsonify({'message': 'Course created successfully'})
+    return make_success_response(
+        message=f"Course {data['name']} created successfully"
+    )
 
 @admin_bp.route('/courses/<int:course_id>', methods=['DELETE'])# 删除课程
-@jwt_required()
 @admin_required
 def delete_course(course_id):
-    course = Course.query.get(course_id)
+    course = Course.query.filter_by(courseid=course_id).first()
     if not course:
-        return jsonify({'message': 'Course not found'}), 404
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'Course not found'
+        )
 
     db.session.delete(course)
     db.session.commit()
 
-    return jsonify({'message': 'Course deleted successfully'})
-
+    return make_success_response(
+        message=f'Course {course.coursename} deleted successfully'
+    )
 #################################对评论的操作######################################
 
 @admin_bp.route('/comments/<int:comment_id>', methods=['DELETE'])
-@jwt_required()
 @admin_required
 def delete_comment(comment_id):
-    comment = Comment.query.get(comment_id)
+    comment = Comment.query.filter_by(commentid=comment_id).first()
     if not comment:
-        return jsonify({'message': 'Comment not found'}), 404
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'Comment not found'
+        )
 
     db.session.delete(comment)
     db.session.commit()
 
-    return jsonify({'message': 'Comment deleted successfully'})
+    return make_success_response(
+        message='Comment deleted successfully'
+    )

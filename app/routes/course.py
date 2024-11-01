@@ -12,8 +12,9 @@ course_bp = Blueprint('course', __name__)# 创建一个蓝图，蓝图的前缀�
 @course_bp.route('', methods=['GET'])# 使用GET方法直接访问该蓝图（/course），返回所有课程
 def get_courses():
     courses = Course.query.all()
+    course_list = [{'courseid': course.courseid, 'name': course.coursename, 'description': course.description} for course in courses]
     return make_success_response(
-        course=courses
+        course=course_list
     )
     
 # 获取该课程详情
@@ -29,12 +30,6 @@ def get_one_course(courseid):
         course=course
     )
     
-# 新建，删除，更新课程
-@course_bp.route('/<int:courseid>', methods=['POST', 'DELETE', 'UPDATE'])
-@admin_required
-def update_course(courseid):
-    ...
-
 # 获取自己的点赞情况，点赞，取消点赞
 @course_bp.route('/<int:courseid>/like', methods=['GET', 'POST', 'DELETE'])
 @jwt_required()
@@ -76,8 +71,41 @@ def get_course_comments(courseid):
     course = Course.query.get(courseid)
 
     if not course:
-        return jsonify({'message': 'Course not found'}), 404
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'Course not found'
+        )
 
-    comments = Comment.query.filter_by(course_id=courseid).all()
-    comments_list = [{'id': comment.id, 'user_id': comment.user_id, 'content': comment.content, 'timestamp': comment.timestamp} for comment in comments]
-    return jsonify(comments_list), 200
+    comments = Comment.query.filter_by(courseid=courseid).all()
+    comments_list = [{'commentid': comment.commentid, 'userid': comment.userid, 
+                      'content': comment.content, 'timestamp': comment.create_time} for comment in comments]
+    return make_success_response(
+        comments=comments_list
+    )
+
+# 返回课程的所有数据，包括：总评论数、总收藏数、好评率、平均得分
+@course_bp.route('/<int:courseid>/stats', methods=['GET'])
+def get_course_stats(courseid):
+    course = Course.query.get(courseid)
+    
+    if not course:
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'Course not found'
+        )
+    
+    comments_count = Comment.query.filter_by(courseid=courseid).count()
+    likes_count = course.likes_count
+    positive_comments_count = Comment.query.filter(Comment.courseid == courseid, Comment.star > 3).count()
+    average_score = db.session.query(db.func.avg(Comment.star)).filter_by(courseid=courseid).scalar()
+     
+    stats = {
+        'comments_count': comments_count,
+        'likes_count': likes_count,
+        'positive_comments_count': positive_comments_count,
+        'average_score': average_score
+    }
+    
+    return make_success_response(
+        stats=stats
+    )

@@ -12,7 +12,7 @@ def admin_required(fn: Callable[[], Tuple[Response, HTTPStatus]]):
     @jwt_required()
     def wrapper(*args, **kwargs):
         user = get_jwt()
-        if user.get('role') != Role.Admin:
+        if user.get('role') != Role.Admin.value:
             return make_error_response(
                 HTTPStatus.FORBIDDEN,
                 'admin is required to do this'
