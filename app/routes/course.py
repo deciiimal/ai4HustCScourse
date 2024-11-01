@@ -76,8 +76,9 @@ def get_course_comments(courseid):
             'Course not found'
         )
 
-    comments = Comment.query.filter_by(course_id=courseid).all()
-    comments_list = [{'id': comment.id, 'user_id': comment.user_id, 'content': comment.content, 'timestamp': comment.timestamp} for comment in comments]
+    comments = Comment.query.filter_by(courseid=courseid).all()
+    comments_list = [{'commentid': comment.commentid, 'userid': comment.userid, 
+                      'content': comment.content, 'timestamp': comment.create_time} for comment in comments]
     return make_success_response(
         comments=comments_list
     )

@@ -21,7 +21,13 @@ def register():
     email = info.get('email')
     invite_code = info.get('invite_code')
     
-    if not username or not password or not email or not invite_code or invite_code != "114514":
+    if not username or not password or not email or not invite_code:
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            'Username, password, email and invite_code are required'
+        )
+    
+    if invite_code != "114514":
         '''邀请码之后还需要搞一个数据库存储'''
         return make_error_response(
             HTTPStatus.BAD_REQUEST,
@@ -90,7 +96,7 @@ def login():
         userid=user.userid,
         username=user.username,
         role=user.role,
-        token=token
+        userInfo=token
     )
 
 #################################对用户的操作######################################
@@ -105,7 +111,7 @@ def ban_user(user_id):
             'User not found'
         )
 
-    user.is_banned = True
+    user.banned = True
     db.session.commit()
 
     return make_success_response(
@@ -118,7 +124,8 @@ def ban_user(user_id):
 @admin_required
 def create_course():
     data = request.get_json()
-    new_course = Course(name=data['name'], description=data['description'])
+    # courseid 自动加，就不用处理了
+    new_course = Course(coursename=data['name'], description=data['description'])
     db.session.add(new_course)
     db.session.commit()
     return make_success_response(

@@ -93,7 +93,7 @@ def login():
         userid=user.userid,
         username=user.username,
         role=user.role,
-        token=token# jwt
+        userInfo=token# jwt
     )
 
 
