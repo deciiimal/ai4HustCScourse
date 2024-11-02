@@ -4,9 +4,11 @@ import json
 
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
+from openai import OpenAI
 
 db = SQLAlchemy()
 jwt = JWTManager()
+kiwi_client: OpenAI = None
 
 def create_app():
     app = flask.Flask(__name__)
@@ -22,6 +24,10 @@ def create_app():
     
     db.init_app(app)
     jwt.init_app(app)
+    kiwi_client = OpenAI(
+        api_key=app.config.get("KIWI_API_KEY"),
+        base_url=app.config.get("KIWI_BASE_URL")
+    )
     
     # 注册蓝图
     from .routes import user_bp
