@@ -112,6 +112,12 @@ def ban_user(user_id):
             'User not found'
         )
 
+    if user.role == Role.Admin.value:
+        return make_error_response(
+            HTTPStatus.FORBIDDEN,
+            'Cannot ban admin user'
+        )
+    
     user.banned = True
     db.session.commit()
 
@@ -145,8 +151,9 @@ def create_course():
     new_course = Course(
         coursename=data.get('name'), 
         description=data.get('description'),
-        image_url=data.get('image-url'),
-        teacher=data.get('teacher'),
+        image_url= "https://raw.githubusercontent.com/deciiimal/ai4HustCScourse/main/course_pic/"+
+            data.get('name')+".png",
+        teachername=data.get('teacher'),
         category=data.get('category')
     )
     
@@ -172,6 +179,33 @@ def delete_course(course_id):
 
     return make_success_response(
         message=f'Course {course.coursename} deleted successfully'
+    )
+    
+@admin_bp.route('/courses/<int:course_id>', methods=['PUT'])# 修改课程
+@admin_required
+def update_course(course_id):
+    course = Course.query.filter_by(courseid=course_id).first()
+    if not course:
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'Course not found'
+        )
+
+    data = request.get_json()
+    if 'name' in data:
+        course.coursename = data.get('name')
+        course.image_url = "https://raw.githubusercontent.com/deciiimal/ai4HustCScourse/main/course_pic/" + data.get('name')+".png"
+    if 'description' in data:
+        course.description = data.get('description')
+    if 'teacher' in data:
+        course.teachername = data.get('teacher')
+    if 'category' in data:
+        course.category = data.get('category')
+    
+    db.session.commit()
+
+    return make_success_response(
+        message=f'Course {course.coursename} updated successfully'
     )
 #################################对评论的操作######################################
 
