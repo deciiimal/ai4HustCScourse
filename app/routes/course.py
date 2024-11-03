@@ -36,7 +36,14 @@ def get_one_course(courseid):
             f'no course {courseid}'
         )
     return make_success_response(
-        course=course
+        course={
+            'courseid': course.courseid, 
+            'name': course.coursename, 
+            'description': course.description,
+            'image-url': course.image_url,
+            'teacher': course.teachername,
+            'category': course.category
+        }
     )
     
 # 获取自己的点赞情况，点赞，取消点赞
