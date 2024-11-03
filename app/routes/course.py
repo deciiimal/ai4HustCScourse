@@ -12,7 +12,16 @@ course_bp = Blueprint('course', __name__)# 创建一个蓝图，蓝图的前缀�
 @course_bp.route('', methods=['GET'])# 使用GET方法直接访问该蓝图（/course），返回所有课程
 def get_courses():
     courses = Course.query.all()
-    course_list = [{'courseid': course.courseid, 'name': course.coursename, 'description': course.description} for course in courses]
+    course_list = [
+        {
+            'courseid': course.courseid, 
+            'name': course.coursename, 
+            'description': course.description,
+            'image-url': course.image_url,
+            'teacher': course.teachername,
+            'category': course.category
+        } for course in courses
+    ]
     return make_success_response(
         course=course_list
     )

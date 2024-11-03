@@ -1,4 +1,5 @@
 from http import HTTPStatus
+from unicodedata import category
 
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
@@ -141,9 +142,17 @@ def unban_user(user_id):
 def create_course():
     data = request.get_json()
     # courseid 自动加，就不用处理了
-    new_course = Course(coursename=data['name'], description=data['description'])
+    new_course = Course(
+        coursename=data.get('name'), 
+        description=data.get('description'),
+        image_url=data.get('image-url'),
+        teacher=data.get('teacher'),
+        category=data.get('category')
+    )
+    
     db.session.add(new_course)
     db.session.commit()
+    
     return make_success_response(
         message=f"Course {data['name']} created successfully"
     )

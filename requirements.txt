@@ -1,5 +1,6 @@
 Flask==3.0.3
 Flask_JWT_Extended==4.6.0
-Flask_Login==0.6.3
 flask_sqlalchemy==3.1.1
-Werkzeug==3.0.4
+openai==1.53.0
+SQLAlchemy==2.0.34
+Werkzeug==3.1.1

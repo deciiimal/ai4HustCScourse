@@ -5,7 +5,7 @@ from flask import Blueprint, request
 from flask_jwt_extended import get_jwt_identity, jwt_required
 
 from app import db
-from app.models import ChatHistory, MessageRole, Comment, Course, make_error_response, make_success_response, user
+from app.models import ChatHistory, MessageRole, Comment, Course, make_error_response, make_success_response
 from app.utils import kiwi, kiwi_format_history, kiwi_create_prompt
 
 chat_bp = Blueprint("chat", __name__)

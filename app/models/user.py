@@ -1,9 +1,8 @@
 from datetime import datetime
 import enum
 
-
-
 from app import db
+
 
 class Role(enum.Enum):
     User = 0
