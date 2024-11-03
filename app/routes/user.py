@@ -87,7 +87,7 @@ def login():
         userid=user.userid,
         username=user.username,
         role=user.role,
-        userInfo=token# jwt
+        token=token# jwt
     )
 
 

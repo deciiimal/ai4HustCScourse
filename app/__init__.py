@@ -24,6 +24,8 @@ def create_app():
     
     db.init_app(app)
     jwt.init_app(app)
+    
+    global kiwi_client
     kiwi_client = OpenAI(
         api_key=app.config.get("KIWI_API_KEY"),
         base_url=app.config.get("KIWI_BASE_URL")
@@ -44,6 +46,9 @@ def create_app():
     
     # from routes import analysis_bp
     # app.register_blueprint(analysis_bp, url_prefix='/analysis')
+    
+    from .routes import chat_bp
+    app.register_blueprint(chat_bp, url_prefix='/chat')
 
     for rule in app.url_map.iter_rules():
         print(f'path: {rule.rule}\tmethod: {rule.methods}')
