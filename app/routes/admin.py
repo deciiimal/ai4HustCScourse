@@ -151,7 +151,7 @@ def create_course():
     new_course = Course(
         coursename=data.get('name'), 
         description=data.get('description'),
-        image_url= "https://raw.githubusercontent.com/deciiimal/ai4HustCScourse/main/course_pic/"+
+        image_url= "https://gitee.com/c-zxiang/picture/raw/main/"+
             data.get('name')+".png",
         teachername=data.get('teacher'),
         category=data.get('category')
@@ -190,11 +190,10 @@ def update_course(course_id):
             HTTPStatus.NOT_FOUND,
             'Course not found'
         )
-
     data = request.get_json()
     if 'name' in data:
         course.coursename = data.get('name')
-        course.image_url = "https://raw.githubusercontent.com/deciiimal/ai4HustCScourse/main/course_pic/" + data.get('name')+".png"
+        course.image_url = "https://gitee.com/c-zxiang/picture/raw/main/" + data.get('name')+".png"
     if 'description' in data:
         course.description = data.get('description')
     if 'teacher' in data:
