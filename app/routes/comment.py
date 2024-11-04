@@ -1,11 +1,37 @@
-from flask import Blueprint, request, jsonify
-from flask_jwt_extended import jwt_required, get_jwt_identity
-#  评论蓝图，前缀为/comments, 下面路由传入的地址前面都必须带上前缀
 from http import HTTPStatus
+from datetime import datetime
+
+from flask import Blueprint, request
+from flask_jwt_extended import jwt_required, get_jwt_identity
+
 from app import db
 from app.models import Comment, Course, User, make_error_response, make_success_response, CommentStar
-from datetime import datetime
+
+
 comment_bp = Blueprint('comment', __name__)
+
+
+@comment_bp.route('/<int:comment_id>', methods=['GET'])# POST方法用于创建评论
+def get_comment(comment_id):
+    comment = Comment.query.get(comment_id)
+    if comment is None:
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            f'no comment {comment_id}'
+        )
+    
+    return make_success_response(
+        comment={
+            "commentid": comment.commentid,
+            "userid": comment.userid,
+            "courseid": comment.courseid,
+            "parent_commentid": comment.parent_commentid,
+            "likes_count": comment.likes_count,
+            "content": comment.content,
+            "timestamp": comment.create_time,
+            "star": comment.star
+        }
+    )
 
 @comment_bp.route('/', methods=['POST'])# POST方法用于创建评论
 @jwt_required()# 特定身份的用户才能访问，jwt表示json web token
