@@ -18,7 +18,7 @@ def get_courses():
             'courseid': course.courseid, 
             'name': course.coursename, 
             'description': course.description,
-            'image-url': course.image_url,
+            'image_url': course.image_url,
             'teacher': course.teachername,
             'category': course.category
         } for course in courses
@@ -41,7 +41,7 @@ def get_one_course(courseid):
             'courseid': course.courseid, 
             'name': course.coursename, 
             'description': course.description,
-            'image-url': course.image_url,
+            'image_url': course.image_url,
             'teacher': course.teachername,
             'category': course.category
         }
