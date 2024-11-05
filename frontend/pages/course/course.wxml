@@ -1,0 +1,86 @@
+
+<view class="top-tab flex-wrp flex-tab " >
+  <view class="toptab flex-item {{currentNavtab==idx ? 'active' : ''}}" wx:for="{{navTab}}" wx:for-index="idx" wx:for-item="itemName" data-idx="{{idx}}" bindtap="switchTab">
+    {{itemName}}
+  </view>
+</view>
+
+<scroll-view scroll-y="true" class="container discovery withtab" bindscrolltoupper="upper" bindscrolltolower="lower"  scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+  <view class="ctnt0" hidden="true">
+    <!-- <swiper class="activity" indicator-dots="{{indicatorDots}}"
+            autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+      <block wx:for="{{imgUrls}}">
+        <swiper-item>
+          <image src="{{item}}" class="slide-image" width="355" height="155"/>
+        </swiper-item>
+      </block>
+    </swiper> -->
+
+    <block wx:for="{{comment}}" wx:for-index="idx" wx:for-item="item" data-idx="{{idx}}">
+      <view class="comment-item" style="height: 299rpx; display: block; box-sizing: border-box;background-color: rgb(234, 240, 240);margin-bottom:20rpx;" bindtap="gotoCommentPage" data-commentid="{{item.commentid}}">
+        <view>
+          <image src= "../../images/user1.png" style="width: 37rpx; height: 33rpx; display: inline-block; box-sizing: border-box; position: relative; left: 31rpx; top: 37rpx"></image>
+          <text style="font-size: 13px; position: relative; left: 44rpx; top: 34rpx; color: gray">from 用户{{item.userid}}</text>
+          <text style="font-size: 13px; position: relative; left: -136rpx; top: 239rpx; color: gray">{{item.timestamp}}</text>
+        </view>
+        <view style="position: relative; width: 641rpx; display: block; box-sizing: border-box; left: 31rpx; top: 56rpx">
+          <text style="font-size: 13px;  color: rgb(75, 75, 75)">{{item.content}}</text>
+        </view>
+
+      </view>
+    </block>
+  </view>
+  <view class="ctnt1 placehold" hidden="">
+    <view style="font-size: 20px;top: -49rpx; position: relative; left: 25rpx;color:#2F5597">课程统计数据</view>
+    <view class="table" style="position: relative; top: -25rpx; left:20rpx;color: rgb(97, 97, 97); width: 716rpx; display: block; box-sizing: border-box">
+      <view class="row" style="background-color: #c8d6ee;;">
+        <view class="cell">平均评分</view>
+        <view class="cell">总评论数</view>
+        <view class="cell">好评数</view>
+      </view>
+      <view class="row">
+        <view class="cell">内容1</view>
+        <view class="cell">内容2</view>
+        <view class="cell">内容3</view>
+      </view>
+      <!-- 更多行和单元格 -->
+    </view>
+    <view style="font-size: 20px;position: relative; left: 25rpx;color:#2F5597">统计数据图表</view>
+  </view>
+  <view class="ctnt2 placehold" hidden="{{currentNavtab==2 ? '' : true}}">
+    <text>热门</text>
+  </view>
+</scroll-view>
+
+
+        <!-- <view class="comment-source">
+          <a class="">
+            <view class="avatar">
+              <image src="{{item.feed_source_img}}"></image>
+            </view>
+            <text>{{item.feed_source_name}}</text>
+          </a>
+        </view>
+        <view class="feed-content">
+          <view class="question" qid="{{question_id}}" bindtap="bindQueTap">
+            <a class="question-link">
+              <text>{{item.question}}</text>
+            </a>
+          </view>
+          <view class="answer-body">
+            <view bindtap="bindItemTap">
+              <text class="answer-txt" aid="{{answer_id}}">{{item.answer_ctnt}}</text>
+            </view>
+            <view class="answer-actions" bindtap="bindItemTap">
+              <view class="like dot">
+                <a>{{item.good_num}} 赞同 </a>
+              </view>
+              <view class="comments dot">
+                <a>{{item.comment_num}} 评论 </a>
+              </view>
+              <view class="follow-it">
+                <a>关注问题</a>
+              </view>
+            </view>
+          </view>
+        </view> -->

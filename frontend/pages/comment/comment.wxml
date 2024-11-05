@@ -1,0 +1,66 @@
+<!--answer.wxml-->
+<view class="container" style="background-color: white;">
+    <!-- <view class="question" bindtap="toQuestion">
+        <text class="question-title">选择 Kindle 而不是纸质书的原因是什么？</text>
+    </view> -->
+    <view class="answerer-wrp">
+        <view class="bg-half"></view>
+        <view class="answerer flex-wrp" style="position: relative; left: 0rpx; top: 38rpx">
+            <view class="avatar flex-item">
+                <image src="../../images/user1.png"></image>
+            </view>
+            <view class="answerer-info flex-item">
+                <text class="answerer-name">from用户 {{comment.userid}}</text>
+                <text class="answerer-des">WEB前端*不靠谱天气预报员*想做代码小仙女</text>
+            </view>
+        </view>
+    </view>
+    <view class="answer-content" style="position: relative; left: -58rpx; top: 58rpx; width: 100%; display: block; box-sizing: border-box">
+    <view style="position: relative; left: 0rpx; top: -2rpx">
+      <text style="position: relative; left: 64rpx; top: -26rpx">评分星级</text>
+      <ratingStar number="{{comment.star}}" style="position: relative; left: 208rpx; top: -93rpx"></ratingStar>  
+      <text>{{comment.star}}</text>  
+    </view>
+    <view style="position: relative; left: 66rpx; top: -131rpx">
+      <text>评价内容：{{comment.content}}</text>     
+    </view>
+    <view>
+      <image src="/images/classroom.jpg" style="position: relative; width: 662rpx; left: 62rpx; top: -74rpx; display: inline-block; box-sizing: border-box; height: 389rpx"></image>   
+    </view>   
+        
+    </view>
+
+    <view class="answer-footer flex-wrp">
+        <!-- <view class="good flex-item">
+            <view class="good-bad">
+                <image src="../../images/good-bad.png"></image>
+            </view>
+            <view class="good-num">2.1k</view>
+        </view> -->
+        <view class="operation-wrp flex-item">
+            <view class="operation flex-wrp flex-tab" style="position: relative; left: 0rpx; top: 2rpx">
+                <!-- <view class="operation-btn flex-item">
+                    <image src="../../images/flag.png"></image>
+                    <text>没有帮助</text>
+                </view> -->
+                <view class="operation-btn flex-item" style="position: relative; left: -30rpx; top: 0rpx">
+                    <image src="../../images/heart2.png"></image>
+                    <text>喜欢</text>
+                </view>
+                <!-- <view class="operation-btn flex-item">
+                    <image src="../../images/star2.png"></image>
+                    <text>收藏</text>
+                </view> -->
+                <view class="operation-btn flex-item" style="position: relative; left: -29rpx; top: 0rpx">
+                    <image src="../../images/comment.png"></image>
+                    <text>302</text>
+                </view>
+
+            </view>
+        </view>
+
+
+
+    </view>
+</view>
+

@@ -1,8 +1,6 @@
 //index.js
 //获取应用实例
 const app = getApp()
- let username=''
- let password=''
 Page({
   data: {
     username: '',
@@ -27,26 +25,26 @@ Page({
    })
   },
   //获取输入款内容
-  content(e){
+  content: function(e){
     this.setData({
-      username: e.detail.value
-    });
+      username:e.detail.value
+    })
   },
-  password(e){
+  password: function(e){
     this.setData({
-      password: e.detail.value
-    });
+      password:e.detail.value
+    })
   },
   //登录事件
   goadmin(){
     let flag = false  //表示账户是否存在,false为初始值
-    if(username=='')
+    if(this.data.username=='')
     {
       wx.showToast({
         icon:'none',
         title: '账号不能为空',
       })
-    }else if(password==''){
+    }else if(this.data.password==''){
       wx.showToast({
         icon:'none',
         title: '密码不能为空',
@@ -60,7 +58,7 @@ Page({
 
       // 向本地服务器发送请求，这里假设你的本地服务器接口为'http://localhost:8080/login'
       wx.request({
-        url: 'http://localhost:8080/login', // 本地服务器接口地址
+        url: `http://${app.globalData.ip}:${app.globalData.port}/user/login`, // 本地服务器接口地址
         method: 'POST',
         data: dataToSend,
         header: {
@@ -68,19 +66,20 @@ Page({
         },
         success: (res) => {
           // 请求成功的处理逻辑
+          console.log(res.data); // 打印返回的JSON内容
           if (res.statusCode === 200) {
             // 假设服务器返回的数据结构中，{ success: true, message: '登录成功', token: 'xxx' }
-            if (res.data.success) {
+            if (res.data.status == "success") {
               wx.showToast({
-                title: res.data.message,
+                title: "Success!",
                 icon: 'success',
                 duration: 2000
               });
               // 假设服务器返回的JSON中包含token，将其保存到本地存储中
-              wx.setStorageSync('token', res.data.token);
+              wx.setStorageSync('userInfo', res.data);
               // 登录成功后跳转到指定页面
-              wx.navigateTo({
-                url: '/pages/admin/admin',
+              wx.switchTab({
+                url: '/pages/index/index',
               });
             } else {
               // 服务器返回的错误信息

@@ -1,0 +1,7 @@
+<!--components/ratingStar/ratingStar.wxml-->
+<view class="stars-box">
+  <block wx:for="{{list}}" wx:key="index">
+    <image src="{{item}}" class="star" data-index="{{index}}" wx:for-index="{{index}}" style="width: 50rpx; height: 50rpx; display: inline-block; box-sizing: border-box"></image>
+  </block>
+</view>
+

@@ -3,7 +3,8 @@ App({
   onLaunch: function () {
     // 小程序启动之后 触发
     let that = this;
-    if (!wx.getStorageSync('userInfo')) {
+    console.log(wx.getStorageSync('token'));
+    if (!wx.getStorageSync('token')) {
       // 未登录，跳转到登录页
       wx.reLaunch({
         url: '/pages/login/login'
@@ -33,6 +34,9 @@ App({
     }
   },
   globalData:{
-    userInfo:null
+    userInfo:null,
+    ip:"127.0.0.1",
+    port:"5000",
+
   }
 })

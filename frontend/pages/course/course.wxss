@@ -29,3 +29,18 @@
   font-size: 28rpx;
   padding: 80rpx 0;
 }
+.table {
+  display: block; /* 或者使用flex布局 */
+  margin: 0, 15rpx;
+}
+
+.row {
+  display: flex; /* 使用flex布局 */
+}
+
+.cell {
+  flex: 1; /* 使每个单元格平均分配空间 */
+  border: 1px solid #ccc; /* 设置边框 */
+  padding: 10px; /* 设置内边距 */
+  text-align: center; /* 文本居中 */
+}

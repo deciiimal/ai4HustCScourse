@@ -4,12 +4,12 @@ var util = require('../../utils/util.js')
 var app = getApp()
 Page({
   data: {
-    feed: [],
+    course0: [],
     feed_length: 0,
     user_info:{},
     onLoad: function() {
       let that = this;
-      if (!wx.getStorageSync('userInfo')) {
+      if (!wx.getStorageSync('token')) {
         // 未登录，跳转到登录页
         wx.reLaunch({
           url: '/pages/login/login'
@@ -34,11 +34,15 @@ Page({
       url: '../question/question'
     })
   },
-  gotoCoursePage: function() {
+
+  gotoCoursePage: function(event){
+    const courseid = event.currentTarget.dataset.courseid; // 从事件对象的dataset中获取courseid
+    console.log(`courseid: ${courseid}`);
     wx.navigateTo({
-      url: '../discovery/discovery',
-    })
+      url: `/pages/course/course?courseid=${courseid}` // 跳转到课程页面并传递courseid
+    });
   },
+
   onLoad: function () {
     console.log('onLoad')
     var that = this
@@ -75,12 +79,28 @@ Page({
 
   //使用本地 fake 数据实现刷新效果
   getData: function(){
-    var feed = util.getData2();
     console.log("loaddata");
-    var feed_data = feed.data;
-    this.setData({
-      feed:feed_data,
-      feed_length: feed_data.length
+    var that = this;
+    wx.request({
+      url: `http://${app.globalData.ip}:${app.globalData.port}/course`, // 替换为你的服务器接口地址
+      method: 'GET', // 或者 'POST', 根据你的接口要求
+      data: {}, // 如果需要，可以在这里传递请求参数
+      header: {
+        'content-type': 'application/json' // 默认值
+        // 可以在这里设置额外的请求头
+      },
+      success(res) {
+        // 请求成功，res是返回的数据
+        console.log(res.data.data);
+        that.setData({
+          course0: res.data.data.course, // 假设返回的数据直接是feed_data
+          // feed_length: res.dat // 更新feed_length为请求数据的长度
+        });
+      },
+      fail(error) {
+        // 请求失败
+        console.error("请求失败：", error);
+      }
     });
   },
   refresh: function(){
