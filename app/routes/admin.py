@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from unicodedata import category
+from typing import Dict
 
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
@@ -97,7 +97,7 @@ def login():
         userid=user.userid,
         username=user.username,
         role=user.role,
-        userInfo=token
+        token=token
     )
 
 #################################对用户的操作######################################
@@ -146,7 +146,16 @@ def unban_user(user_id):
 @admin_bp.route('/courses', methods=['POST'])# 加入课程
 @admin_required
 def create_course():
-    data = request.get_json()
+    data: Dict = request.get_json()
+    
+    for key in ('name', 'description', 'teacher', 'category'):
+        if key not in data.keys():
+            return make_error_response(
+                HTTPStatus.BAD_REQUEST,
+                f'{key} is required to create a course'
+            )
+        
+        
     # courseid 自动加，就不用处理了
     new_course = Course(
         coursename=data.get('name'), 

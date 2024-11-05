@@ -48,8 +48,8 @@ def chat(courseid):
     else:
         context = kiwi_format_history(chat_history)
         
-    print('message: ', message)
-    print('context: ', '\n'.join(str(item) for item in context))
+    # print('message: ', message)
+    # print('context: ', '\n'.join(str(item) for item in context))
     
     response, status = kiwi(message, context)
     
