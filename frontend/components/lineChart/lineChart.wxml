@@ -1,0 +1,9 @@
+<view>
+  <canvas canvas-id="lineCanvas" disable-scroll="true" class="canvas"  bindtouchstart="touchcanvas" style="width: 100%; height: 300px;"></canvas>
+  <view class = "canvas1_button" bindtap="canvas1_click" >
+    <text style="color:{{textcolor1}}" class="canvas1_text">收藏数</text>
+  </view>
+  <view class = "canvas2_button" bindtap="canvas2_click" >
+    <text style="color:{{textcolor2}}" class="canvas2_text">评论数</text>
+  </view>
+</view>

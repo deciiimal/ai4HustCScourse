@@ -16,7 +16,8 @@ Page({
     duration: 1000,
     comment: [],
     feed:[],
-    feed_length: 0
+    feed_length: 0,
+    stats:[],
   },
   onLoad: function (options) {
     console.log('onLoad')
