@@ -199,6 +199,7 @@ def update_course(course_id):
             HTTPStatus.NOT_FOUND,
             'Course not found'
         )
+        
     data = request.get_json()
     if 'name' in data:
         course.coursename = data.get('name')
