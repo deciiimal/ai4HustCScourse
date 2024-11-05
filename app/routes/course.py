@@ -18,6 +18,8 @@ def get_courses():
             'courseid': course.courseid, 
             'name': course.coursename, 
             'description': course.description,
+            'likes-count': course.likes_count,
+            'comments-count': course.comments_count,
             'image-url': course.image_url,
             'teacher': course.teachername,
             'category': course.category
@@ -41,6 +43,8 @@ def get_one_course(courseid):
             'courseid': course.courseid, 
             'name': course.coursename, 
             'description': course.description,
+            'likes-count': course.likes_count,
+            'comments-count': course.comments_count,
             'image-url': course.image_url,
             'teacher': course.teachername,
             'category': course.category

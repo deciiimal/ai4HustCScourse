@@ -44,11 +44,11 @@ def create_app():
     from .routes import admin_bp
     app.register_blueprint(admin_bp, url_prefix='/admin')
     
-    # from routes import analysis_bp
-    # app.register_blueprint(analysis_bp, url_prefix='/analysis')
-    
     from .routes import chat_bp
     app.register_blueprint(chat_bp, url_prefix='/chat')
+    
+    from .routes import search_bp
+    app.register_blueprint(search_bp, url_prefix='/search')
 
     for rule in app.url_map.iter_rules():
         print(f'path: {rule.rule}\tmethod: {rule.methods}')
