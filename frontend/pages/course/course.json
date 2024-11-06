@@ -1,7 +1,4 @@
 {
     "navigationBarTitleText": "课程详情",
-    "usingComponents": {
-      "lineChart": "/components/lineChart/lineChart"
-    },
     "component": true
 }

@@ -7,8 +7,8 @@ Page({
     motto: '知乎--微信小程序版',
     userInfo: {},
     comment: {
-      star:3
     },
+    like: 0,
 
   },
   //事件处理函数

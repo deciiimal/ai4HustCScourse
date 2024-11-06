@@ -6,7 +6,7 @@
 </view>
 
 <scroll-view scroll-y="true" class="container discovery withtab" bindscrolltoupper="upper" bindscrolltolower="lower"  scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
-  <view class="ctnt0" hidden="true">
+  <view class="ctnt0" hidden="{{currentNavtab != 0}}">
     <!-- <swiper class="activity" indicator-dots="{{indicatorDots}}"
             autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
       <block wx:for="{{imgUrls}}">
@@ -30,7 +30,7 @@
       </view>
     </block>
   </view>
-  <view class="ctnt1 placehold" hidden="" style="height:500px">
+  <view class="ctnt1 placehold" hidden="{{currentNavtab != 1}}" style="height:500px">
     <view style="font-size: 20px;top: -49rpx; position: relative; left: 25rpx;color:#2F5597">课程统计数据</view>
     <view class="table" style="position: relative; top: -25rpx; left:20rpx;color: rgb(97, 97, 97); width: 716rpx; display: block; box-sizing: border-box">
       <view class="row" style="background-color: #c8d6ee;;">
@@ -39,20 +39,30 @@
         <view class="cell">好评数</view>
       </view>
       <view class="row">
-        <view class="cell">内容1</view>
-        <view class="cell">内容2</view>
-        <view class="cell">内容3</view>
+        <view class="cell">{{stats.average_score}}</view>
+        <view class="cell">{{stats.comments_count}}</view>
+        <view class="cell">{{stats.positive_comments_count}}</view>
       </view>
       <!-- 更多行和单元格 -->
     </view>
     <view style="font-size: 20px; position: relative; left: 25rpx; color: #2F5597; top: -2rpx">统计数据图表</view>
-    <view style="position: relative;margin-top:45rpx;height:400px">
+    <!-- <view style="position: relative;margin-top:45rpx;height:400px">
       <lineChart></lineChart>    
+    </view> -->
+
+    <view>
+      <canvas canvas-id="lineCanvas" disable-scroll="true" class="canvas"  bindtouchstart="touchcanvas" style="width: 100%; height: 300px; position: relative; left: 0rpx; top: 95rpx"></canvas>
+      <view class = "canvas1_button" bindtap="canvas1_click" >
+        <text style="color: {{textcolor1}}; position: relative; left: 462rpx; top: -560rpx" class="canvas1_text">收藏数</text>
+      </view>
+      <view class = "canvas2_button" bindtap="canvas2_click" >
+        <text style="color: {{textcolor2}}; position: relative; left: 610rpx; top: -593rpx" class="canvas2_text">评论数</text>
+      </view>
     </view>
 
   </view>
   <view class="ctnt2 placehold" hidden="{{currentNavtab==2 ? '' : true}}">
-    <text>热门</text>
+    <text>GPT功能</text>
   </view>
 </scroll-view>
 

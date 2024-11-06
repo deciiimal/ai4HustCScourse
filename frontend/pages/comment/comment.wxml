@@ -43,8 +43,8 @@
                     <image src="../../images/flag.png"></image>
                     <text>没有帮助</text>
                 </view> -->
-                <view class="operation-btn flex-item" style="position: relative; left: -30rpx; top: 0rpx">
-                    <image src="../../images/heart2.png"></image>
+                <view class="operation-btn flex-item" style="position: relative; left: -30rpx; top: 0rpx" bindtap="ChangeLike">
+                    <image src="../../images/gray_heart.png"></image>
                     <text>喜欢</text>
                 </view>
                 <!-- <view class="operation-btn flex-item">
