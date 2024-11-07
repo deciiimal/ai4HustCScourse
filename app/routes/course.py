@@ -174,3 +174,27 @@ def get_lastweek_comments_likes_trend(courseid):
         comments_trend=comments_trend,
         likes_trend=likes_trend
     )
+
+# 获得我收藏的课程
+@course_bp.route('/my_courses', methods=['GET'])
+@jwt_required()
+def get_my_courses():
+    userid = get_jwt_identity()
+    courses = Course.query.join(CourseStar).filter(CourseStar.userid == userid).all()
+    
+    course_list = [
+        {
+            'courseid': course.courseid, 
+            'name': course.coursename, 
+            'description': course.description,
+            'likes-count': course.likes_count,
+            'comments-count': course.comments_count,
+            'image_url': course.image_url,
+            'teacher': course.teachername,
+            'category': course.category
+        } for course in courses
+    ]
+    
+    return make_success_response(
+        course=course_list
+    )
