@@ -30,7 +30,7 @@
       </view>
     </block>
   </view>
-  <view class="ctnt1 placehold" hidden="">
+  <view class="ctnt1 placehold" hidden="" style="height:500px">
     <view style="font-size: 20px;top: -49rpx; position: relative; left: 25rpx;color:#2F5597">课程统计数据</view>
     <view class="table" style="position: relative; top: -25rpx; left:20rpx;color: rgb(97, 97, 97); width: 716rpx; display: block; box-sizing: border-box">
       <view class="row" style="background-color: #c8d6ee;;">
@@ -45,7 +45,11 @@
       </view>
       <!-- 更多行和单元格 -->
     </view>
-    <view style="font-size: 20px;position: relative; left: 25rpx;color:#2F5597">统计数据图表</view>
+    <view style="font-size: 20px; position: relative; left: 25rpx; color: #2F5597; top: -2rpx">统计数据图表</view>
+    <view style="position: relative;margin-top:45rpx;height:400px">
+      <lineChart></lineChart>    
+    </view>
+
   </view>
   <view class="ctnt2 placehold" hidden="{{currentNavtab==2 ? '' : true}}">
     <text>热门</text>

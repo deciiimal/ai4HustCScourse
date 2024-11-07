@@ -7,6 +7,7 @@ Page({
     course0: [],
     feed_length: 0,
     user_info:{},
+    defaultImageUrl: "https://gitee.com/c-zxiang/picture/raw/main/计算机组成原理.png",
     onLoad: function() {
       let that = this;
       if (!wx.getStorageSync('token')) {
@@ -18,6 +19,13 @@ Page({
         // 已登录，获取用户信息
         that.setData({
           userInfo: wx.getStorageSync('userInfo')
+        });
+        const course0 = this.data.course0;
+        course0.forEach(item => {
+          item['image-url'] = this.data.defaultImageUrl; // 设置默认图片URL
+        });
+        this.setData({
+          course0: course0 // 更新数组
         });
       }
     }
@@ -50,16 +58,16 @@ Page({
     this.getData();
   },
   upper: function () {
-    wx.showNavigationBarLoading()
-    this.refresh();
-    console.log("upper");
-    setTimeout(function(){wx.hideNavigationBarLoading();wx.stopPullDownRefresh();}, 2000);
+    // wx.showNavigationBarLoading()
+    // this.refresh();
+    // console.log("upper");
+    // setTimeout(function(){wx.hideNavigationBarLoading();wx.stopPullDownRefresh();}, 2000);
   },
   lower: function (e) {
-    wx.showNavigationBarLoading();
-    var that = this;
-    setTimeout(function(){wx.hideNavigationBarLoading();that.nextLoad();}, 1000);
-    console.log("lower")
+    // wx.showNavigationBarLoading();
+    // var that = this;
+    // setTimeout(function(){wx.hideNavigationBarLoading();that.nextLoad();}, 1000);
+    // console.log("lower")
   },
   //scroll: function (e) {
   //  console.log("scroll")
