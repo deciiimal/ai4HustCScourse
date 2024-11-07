@@ -98,8 +98,16 @@ def get_course_comments(courseid):
         )
 
     comments = Comment.query.filter_by(courseid=courseid).all()
-    comments_list = [{'commentid': comment.commentid, 'userid': comment.userid, 
-                      'content': comment.content, 'timestamp': comment.create_time} for comment in comments]
+    comments_list = [
+        {
+            'commentid': comment.commentid,
+            'courseid': comment.courseid,
+            'userid': comment.userid,
+            'content': comment.content,
+            'star': comment.star,
+            'create_at': comment.create_time
+        } for comment in comments
+    ]
     return make_success_response(
         comments=comments_list
     )
@@ -165,4 +173,28 @@ def get_lastweek_comments_likes_trend(courseid):
     return make_success_response(
         comments_trend=comments_trend,
         likes_trend=likes_trend
+    )
+
+# 获得我收藏的课程
+@course_bp.route('/my_courses', methods=['GET'])
+@jwt_required()
+def get_my_courses():
+    userid = get_jwt_identity()
+    courses = Course.query.join(CourseStar).filter(CourseStar.userid == userid).all()
+    
+    course_list = [
+        {
+            'courseid': course.courseid, 
+            'name': course.coursename, 
+            'description': course.description,
+            'likes-count': course.likes_count,
+            'comments-count': course.comments_count,
+            'image_url': course.image_url,
+            'teacher': course.teachername,
+            'category': course.category
+        } for course in courses
+    ]
+    
+    return make_success_response(
+        course=course_list
     )
