@@ -98,8 +98,16 @@ def get_course_comments(courseid):
         )
 
     comments = Comment.query.filter_by(courseid=courseid).all()
-    comments_list = [{'commentid': comment.commentid, 'userid': comment.userid, 
-                      'content': comment.content, 'timestamp': comment.create_time} for comment in comments]
+    comments_list = [
+        {
+            'commentid': comment.commentid,
+            'courseid': comment.courseid,
+            'userid': comment.userid,
+            'content': comment.content,
+            'star': comment.star,
+            'create_at': comment.create_time
+        } for comment in comments
+    ]
     return make_success_response(
         comments=comments_list
     )

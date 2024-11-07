@@ -172,8 +172,9 @@ def get_my_comments():
     
     comments_data = [
         {
-            'id': comment.commentid,
+            'commentid': comment.commentid,
             'courseid': comment.courseid,
+            'userid': comment.userid,
             'content': comment.content,
             'star': comment.star,
             'created_at': comment.create_time
@@ -183,4 +184,27 @@ def get_my_comments():
     
     return make_success_response(
         comments=comments_data# 得知道这个参数然后读取？
+    )
+    
+# 获得所有我点赞的评论
+@comment_bp.route('/my_likes', methods=['GET'])
+@jwt_required()
+def get_my_likes():
+    current_user = get_jwt_identity()
+    stars = CommentStar.query.filter_by(userid=current_user).all()
+    
+    comments_data = [
+        {
+            'commentid': star.commentid,
+            'courseid': Comment.query.get(star.commentid).courseid,
+            'userid': Comment.query.get(star.commentid).userid,
+            'content': Comment.query.get(star.commentid).content,
+            'star': Comment.query.get(star.commentid).star,
+            'created_at': Comment.query.get(star.commentid).create_time
+        }
+        for star in stars
+    ]
+    
+    return make_success_response(
+        comments=comments_data
     )
