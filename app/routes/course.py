@@ -97,7 +97,7 @@ def get_course_comments(courseid):
             'Course not found'
         )
 
-    comments = Comment.query.filter_by(courseid=courseid).all()
+    comments = Comment.query.filter_by(courseid=courseid, parent_commentid=None).all()
     comments_list = [
         {
             'commentid': comment.commentid,

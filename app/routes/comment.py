@@ -5,7 +5,7 @@ from flask import Blueprint, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app import db
-from app.models import Comment, Course, User, make_error_response, make_success_response, CommentStar
+from app.models import Message, Comment, Course, User, make_error_response, make_success_response, CommentStar
 
 
 comment_bp = Blueprint('comment', __name__)
@@ -39,7 +39,7 @@ def create_comment():# 创建一条评论
     current_userid = get_jwt_identity()# 返回用户id
     data = request.get_json()
     course_id = data.get('courseid')# 请求的json数据中必须要有course_id和content字段
-    existing_comment = Comment.query.filter_by(userid=current_userid, courseid=course_id).first()
+    existing_comment = Comment.query.filter_by(userid=current_userid, courseid=course_id, parent_commentid=None).first()
     if existing_comment:
         return make_error_response(
             HTTPStatus.BAD_REQUEST,
@@ -149,7 +149,19 @@ def like_comment(comment_id):
         
         db.session.add(star)
         db.session.commit()
-    
+        
+        course = Course.query.filter_by(courseid=comment.courseid).first()
+        if not course:
+            return make_error_response(
+                HTTPStatus.NOT_FOUND,
+                'Course not found'
+            )
+        current_user = User.query.filter_by(userid=current_user).first()
+        message = f'你在《{course.coursename}》课程中的评论被用户 {current_user.username} 点赞了'
+        new_message = Message(userid=comment.userid, message=message)
+        db.session.add(new_message)
+        db.session.commit()
+        
     elif request.method == 'DELETE' and star is not None:
         comment.likes_count -= 1
         
@@ -207,4 +219,71 @@ def get_my_likes():
     
     return make_success_response(
         comments=comments_data
+    )
+    
+# 创建子评论
+@comment_bp.route('/<int:comment_id>/reply', methods=['POST'])
+@jwt_required()
+def reply_comment(comment_id):
+    current_user = get_jwt_identity()
+    comment = Comment.query.get(comment_id)
+    if not comment:
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'Comment not found'
+        )
+    existing_comment = Comment.query.filter_by(userid=current_user, courseid=comment.courseid, parent_commentid=comment_id).first()
+    if existing_comment:
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            'You have already commented on this comment'
+        )
+    data = request.get_json()
+    content = data.get('content')
+    
+    new_comment = Comment(userid=current_user, courseid=comment.courseid, parent_commentid=comment_id, content=content)
+    db.session.add(new_comment)
+    db.session.commit()
+    
+    course = Course.query.filter_by(courseid=comment.courseid).first()
+    if not course:
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'Course not found'
+        )
+    current_user = User.query.filter_by(userid=current_user).first()
+    message = f'你在《{course.coursename}》课程中的评论被用户 {current_user.username} 评论了'
+    new_message = Message(userid=comment.userid, message=message)
+    db.session.add(new_message)
+    db.session.commit()
+    
+    return make_success_response(
+        message='Reply created successfully'
+    )
+    
+@comment_bp.route('/<int:comment_id>/replies', methods=['GET'])
+def get_replies(comment_id):
+    comment = Comment.query.get(comment_id)
+    if not comment:
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'Comment not found'
+        )
+    
+    replies = Comment.query.filter_by(parent_commentid=comment_id).all()
+    
+    replies_data = [
+        {
+            'commentid': reply.commentid,
+            'courseid': reply.courseid,
+            'userid': reply.userid,
+            'content': reply.content,
+            'star': reply.star,
+            'created_at': reply.create_time
+        }
+        for reply in replies
+    ]
+    
+    return make_success_response(
+        replies=replies_data
     )
