@@ -44,7 +44,7 @@ Page({
     courseid_g = courseid;
     // this.refresh();
     if (courseid) { // 确保courseid存在
-      this.getData(courseid);  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      that.getData(courseid);  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
       console.log(`courseid is ${courseid}`);
     } else {
       console.error('courseid is undefined');
@@ -327,20 +327,38 @@ Page({
         'Authorization': "Bearer " + wx.getStorageSync('userInfo').token,
       },
       success: function(res) {
-        if(res.statusCode == '200'){
+        if(res.statusCode == 200){
           console.log(res.data);
-          // bot_response = res.data.data.messages.content;
-          // const aiMessage = {
-          //   role: 'assistant',
-          //   content: bot_response,
-          // };
-      
-          // newChats = [...newChats, aiMessage];
           that.setData({
             inputMessage: '',
           });
-          that.onLoad();
-
+          wx.request({
+            url: `http://${app.globalData.ip}:${app.globalData.port}/chat/${courseid_g}`,
+            method: 'GET',
+            header: {
+              'content-type': 'application/json', // 默认值
+              // 可以在这里设置额外的请求头
+              'Authorization': "Bearer " + wx.getStorageSync('userInfo').token,
+            },
+            success: function(res) {
+              if (res.statusCode == 200) {
+                that.setData({
+                  chats: res.data.data.messages,
+                  scrollToMessage: `msg-${updatedChats.length - 1}` // 可选：滚动到最新消息
+                });
+                console.log(that.data.chats);
+              } else {
+                wx.showToast({
+                  title: '重新加载失败 ' + res.statusCode,
+                  icon: "error",
+                  duration: 2000,
+                });
+              }
+            },
+            fail: function(error) {
+              console.error("加载聊天记录失败", error);
+            }
+          });
         }
         else{
           console.log("出错了!error: ",res.statusCode);
@@ -360,7 +378,7 @@ Page({
         })
         console.error("对话请求失败", error);
       }
-    })
+    });
     // 模拟AI回复
   }
 });

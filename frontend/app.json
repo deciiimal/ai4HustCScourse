@@ -9,7 +9,8 @@
     "pages/answer/answer",
     "pages/comment/comment",
     "pages/register/register",
-    "pages/addComment/addComment"
+    "pages/addComment/addComment",
+    "pages/Result/Result"
   ],
   "window": {
     "backgroundTextStyle": "light",

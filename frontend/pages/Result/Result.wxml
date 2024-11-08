@@ -1,0 +1,50 @@
+<!--pages/Result/Result.wxml-->
+<scroll-view scroll-y="true" class="container" bindscrolltoupper="upper" upper-threshold="10" lower-threshold="5" bindscrolltolower="lower"  scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+  <block wx:for="{{searchCourse}}" wx:for-index="idx" wx:for-item="item" wx:key="courseid">
+    <view style="height: 399rpx; display: block; box-sizing: border-box" bindtap="gotoCoursePage" data-courseid="{{item.courseid}}" data-name="{{item.name}}">
+      <view class="course_pic" style="background-color: rgb(238, 240, 240);margin-bottom: 0;">
+        <image src= "{{item.image_url}}" style="width: 252rpx; box-sizing: border-box; height: 350rpx;margin: 10rpx;"></image>
+      </view>
+      <view style="position: relative; left: 0rpx; top: 25rpx">
+        <!-- <text>{{item.course_name}}</text> -->
+        <text style="position: relative; font-size: 12px; left: 297rpx; top: -285rpx">类别：{{item.category}}</text>
+        <text style="font-size: 12px; position: relative; left: 297rpx; top: -285rpx">
+          授课老师：{{item.teacher}}
+        </text>
+        <text style="position: relative; left: 297rpx; top: -425rpx; font-size: 15px">{{item.name}}</text>
+        
+        <view style="position: relative; left: -8rpx; top: 0rpx">
+          <image src="../../images/commentIcon.png" style="width: 45rpx; height: 43rpx; display: inline-block; box-sizing: border-box; position: relative; left: 297rpx; top: -223rpx"></image>
+          <view style="position: relative; width: 347rpx; height: 60rpx; overflow: scroll; display: block; box-sizing: border-box; left: 347rpx; top: -268rpx">
+            <text style="position: relative;font-size: 12px;" >{{item.description}}</text> 
+          </view>
+                
+        </view>
+      </view>
+    </view>
+  </block>
+
+</scroll-view>
+<block wx:for="{{course0}}" wx:for-index="idx" wx:for-item="item" wx:key="courseid">
+    <view style="height: 399rpx; display: block; box-sizing: border-box" bindtap="gotoCoursePage" data-courseid="{{item.courseid}}" data-name="{{item.name}}">
+      <view class="course_pic" style="background-color: rgb(238, 240, 240);margin-bottom: 0;">
+        <image src= "{{item.image_url}}" style="width: 252rpx; box-sizing: border-box; height: 350rpx;margin: 10rpx;"></image>
+      </view>
+      <view style="position: relative; left: 0rpx; top: 25rpx">
+        <!-- <text>{{item.course_name}}</text> -->
+        <text style="position: relative; font-size: 12px; left: 297rpx; top: -285rpx">类别：{{item.category}}</text>
+        <text style="font-size: 12px; position: relative; left: 297rpx; top: -285rpx">
+          授课老师：{{item.teacher}}
+        </text>
+        <text style="position: relative; left: 297rpx; top: -425rpx; font-size: 15px">{{item.name}}</text>
+        
+        <view style="position: relative; left: -8rpx; top: 0rpx">
+          <image src="../../images/commentIcon.png" style="width: 45rpx; height: 43rpx; display: inline-block; box-sizing: border-box; position: relative; left: 297rpx; top: -223rpx"></image>
+          <view style="position: relative; width: 347rpx; height: 60rpx; overflow: scroll; display: block; box-sizing: border-box; left: 347rpx; top: -268rpx">
+            <text style="position: relative;font-size: 12px;" >{{item.description}}</text> 
+          </view>
+                
+        </view>
+      </view>
+    </view>
+  </block>

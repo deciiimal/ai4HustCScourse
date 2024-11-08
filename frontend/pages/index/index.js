@@ -8,28 +8,26 @@ Page({
     feed_length: 0,
     user_info:{},
     defaultImageUrl: "https://gitee.com/c-zxiang/picture/raw/main/计算机组成原理.png",
-    onLoad: function() {
-      let that = this;
-      if (!wx.getStorageSync('token')) {
-        // 未登录，跳转到登录页
-        wx.reLaunch({
-          url: '/pages/login/login'
-        });
-      } else {
-        // 已登录，获取用户信息
-        that.setData({
-          userInfo: wx.getStorageSync('userInfo')
-        });
-        const course0 = this.data.course0;
-        course0.forEach(item => {
-          item['image-url'] = this.data.defaultImageUrl; // 设置默认图片URL
-        });
-        this.setData({
-          course0: course0 // 更新数组
-        });
-      }
+    researchResult: [],
+  },
+  onLoad: function() {
+    let that = this;
+    if (!wx.getStorageSync('userInfo')) {
+      // 未登录，跳转到登录页
+      wx.reLaunch({
+        url: '/pages/login/login'
+      });
+    } else {
+      // const course0 = this.data.course0;
+      // course0.forEach(item => {
+      //   item['image-url'] = this.data.defaultImageUrl; // 设置默认图片URL
+      // });
+      // that.setData({
+      //   course0: course0 // 更新数组
+      // });
+      console.log('onLoad')
+      that.getData();
     }
-
   },
   //事件处理函数
   bindItemTap: function() {
@@ -49,13 +47,6 @@ Page({
     wx.navigateTo({
       url: `/pages/course/course?courseid=${courseid}` // 跳转到课程页面并传递courseid
     });
-  },
-
-  onLoad: function () {
-    console.log('onLoad')
-    var that = this
-    //调用应用实例的方法获取全局数据
-    this.getData();
   },
   upper: function () {
     // wx.showNavigationBarLoading()
@@ -155,7 +146,75 @@ Page({
         duration: 2000
       })
     },3000)
+  },
+  // 输入内容时触发
+onSearchInput: function(e) {
+  this.setData({
+    searchKeyword: e.detail.value
+  });
+},
+
+// 搜索功能实现
+inputSearch: function() {
+  var that = this;
+  
+  if (!that.data.searchKeyword.trim()) {
+    wx.showToast({
+      title: '请输入搜索内容',
+      icon: 'none',
+      duration: 2000
+    });
+    return;
   }
+
+  wx.showLoading({
+    title: '搜索中...',
+  });
+
+  wx.request({
+    url: `http://${app.globalData.ip}:${app.globalData.port}/search?kw=${that.data.searchKeyword}`,
+    method: 'GET',
+    data: {
+      keyword: that.data.searchKeyword
+    },
+    header: {
+      'content-type': 'application/json',
+      'Authorization': "Bearer " + wx.getStorageSync('userInfo').token,
+    },
+    success: function(res) {
+      if (res.statusCode === 200) {
+        console.log('搜索结果：', res.data);
+        
+        // 处理搜索结果，根据实际返回数据结构进行相应处理
+        that.setData({
+          searchResults: res.data.data.course,
+        });
+
+        // 如果需要跳转到搜索结果页面
+        wx.navigateTo({
+          url: '/pages/Result/Result?results=' + encodeURIComponent(JSON.stringify(that.data.searchResults)),
+        });
+      } else {
+        wx.showToast({
+          title: '搜索失败',
+          icon: 'error',
+          duration: 2000
+        });
+      }
+    },
+    fail: function(error) {
+      console.error('搜索请求失败：', error);
+      wx.showToast({
+        title: '网络错误',
+        icon: 'error',
+        duration: 2000
+      });
+    },
+    complete: function() {
+      wx.hideLoading();
+    }
+  });
+},
 
 
 })
