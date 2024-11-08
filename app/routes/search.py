@@ -90,7 +90,7 @@ def search_by_all():
             'description': course.description,
             'likes-count': course.likes_count,
             'comments-count': course.comments_count,
-            'image-url': course.image_url,
+            'image_url': course.image_url,
             'teacher': course.teachername,
             'category': course.category
         } for course in courses1
@@ -102,7 +102,7 @@ def search_by_all():
             'description': course.description,
             'likes-count': course.likes_count,
             'comments-count': course.comments_count,
-            'image-url': course.image_url,
+            'image_url': course.image_url,
             'teacher': course.teachername,
             'category': course.category
         } for course in courses2

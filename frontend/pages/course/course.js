@@ -26,6 +26,7 @@ Page({
     x_data: ["day1","day2","day3","day4","day5","day6","day7"],
     shoucang: ["1","3","5","4","1","3","2"],
     cmtNum: [12,5,7,4,1,3,5],
+    buttonDisalbed: false,
     chats: [
       {
         role: 'assistant',
@@ -284,6 +285,19 @@ Page({
 
   // 发送消息
   sendMessage: function() {
+    if(this.data.buttonDisabled) return;
+    this.setData(
+      {
+        buttonDisabled: true
+      }
+    )
+    setTimeout(
+      ()=>{
+        this.setData({
+          buttonDisabled: false
+        })
+      }, 1000
+    )
     var that = this;
     if (!that.data.inputMessage.trim()) {
       wx.showToast({

@@ -81,7 +81,7 @@
               bindinput="onInput"
               confirm-type="send"
               bindconfirm="sendMessage"/>
-        <button class="send-btn" bindtap="sendMessage">发送</button>
+        <button class="send-btn" bindtap="sendMessage" disabled="{{buttonDisabled}}">发送</button>
       </view>
     </view>
   </view>
