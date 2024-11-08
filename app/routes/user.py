@@ -3,9 +3,9 @@ from http import HTTPStatus
 from flask import Blueprint, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
-
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from app import db
-from app.models import User, make_error_response, make_success_response
+from app.models import User, make_error_response, make_success_response, Message
 
 # 用户蓝图
 user_bp = Blueprint('user', __name__)
@@ -90,4 +90,96 @@ def login():
         token=token# jwt
     )
 
+# 查看消息中心
+@user_bp.route('/messages', methods=['GET'])
+@jwt_required()
+def get_messages():
+    user_id = get_jwt_identity()
+    
+    messages = Message.query.filter_by(userid=user_id).all()
+    if not messages:
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'No messages found for this user'
+        )
+    
+    messages_data = [
+        {
+            'message': msg.message,
+            'create_time': msg.time,
+            'been_read': msg.read
+        }
+        for msg in messages
+    ]
+    for msg in messages:
+        msg.read = True
+    db.session.commit()
+    return make_success_response(messages=messages_data)
 
+# 修改用户名
+@user_bp.route('/username', methods=['PUT'])
+@jwt_required()
+def update_username():
+    user_id = get_jwt_identity()
+    new_username = request.get_json().get('username')
+    if not new_username:
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            'Username is required'
+        )
+    
+    if User.query.filter_by(username=new_username).first():
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            'the Username has been taken'
+        )
+    
+    user = User.query.get(user_id)
+    if not user:
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'User not found'
+        )
+    
+    user.username = new_username
+    db.session.commit()
+    
+    return make_success_response(
+        message='Username updated successfully'
+    )
+    
+# 修改密码
+@user_bp.route('/password', methods=['PUT'])
+@jwt_required()
+def update_password():
+    user_id = get_jwt_identity()
+    data = request.get_json()
+    old_password = data.get('old_password')
+    new_password = data.get('new_password')
+    confirm_password = data.get('confirm_password')
+    
+    if not old_password or not new_password or not confirm_password:
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            'Old password, new password, and confirmation are required'
+        )
+    
+    if new_password != confirm_password:
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            'New password and confirmation do not match'
+        )
+    
+    user = User.query.get(user_id)
+    if not user or not check_password_hash(user.password, old_password):
+        return make_error_response(
+            HTTPStatus.UNAUTHORIZED,
+            'Invalid old password'
+        )
+    
+    user.password = generate_password_hash(new_password)
+    db.session.commit()
+    
+    return make_success_response(
+        message='Password updated successfully'
+    )

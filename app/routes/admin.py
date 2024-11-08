@@ -8,6 +8,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
 from app.models import User, Role, Course, Comment, make_error_response, make_success_response
 from app.utils import admin_required
+from app.models import Message
 
 # 管理员蓝图
 admin_bp = Blueprint('admin', __name__)
@@ -121,6 +122,11 @@ def ban_user(user_id):
     user.banned = True
     db.session.commit()
 
+    message = f'你已被管理员禁言，请联系管理员解禁'
+    new_message = Message(userid=user_id, message=message)
+    db.session.add(new_message)
+    db.session.commit()
+    
     return make_success_response(
         message = 'User banned successfully'
     )
@@ -138,6 +144,11 @@ def unban_user(user_id):
     user.banned = False
     db.session.commit()
 
+    message = f'你已被管理员解除禁言'
+    new_message = Message(userid=user_id, message=message)
+    db.session.add(new_message)
+    db.session.commit()
+    
     return make_success_response(
         message = 'User unbanned successfully'
     )
@@ -231,6 +242,22 @@ def delete_comment(comment_id):
     db.session.delete(comment)
     db.session.commit()
 
+    # Add a message to the Message database
+
+    course = Course.query.filter_by(courseid=comment.courseid).first()
+    if not course:
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'Course not found'
+        )
+    
+    message = Message(
+        userid=comment.userid,
+        content=f'你在课程《{course.coursename}》中的评论被管理员删除了'
+    )
+    db.session.add(message)
+    db.session.commit()
+    
     return make_success_response(
         message='Comment deleted successfully'
     )
