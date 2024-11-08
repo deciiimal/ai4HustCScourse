@@ -3,16 +3,18 @@
     "pages/login/login",
     "pages/index/index",
     "pages/course/course",
-    "pages/notify/notify",
+    "pages/me/me",
     "pages/chat/chat",
     "pages/more/more",
     "pages/answer/answer",
-    "pages/comment/comment"
+    "pages/comment/comment",
+    "pages/register/register",
+    "pages/addComment/addComment"
   ],
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#0068C4",
-    "navigationBarTitleText": "AI4Selectives",
+    "navigationBarTitleText": "HUST-CS课程评价论坛",
     "navigationBarTextStyle": "white",
     "enablePullDownRefresh": true
   },
@@ -29,16 +31,16 @@
         "selectedIconPath": "images/index_focus.png"
       },
       {
-        "pagePath": "pages/more/more",
+        "pagePath": "pages/addComment/addComment",
         "text": "",
         "iconPath": "images/addComment.png",
-        "selectedIconPath": "images/discovery_focus.png"
+        "selectedIconPath": "images/blue_add.png"
       },
       {
-        "pagePath": "pages/notify/notify",
+        "pagePath": "pages/me/me",
         "text": "",
-        "iconPath": "images/ring.png",
-        "selectedIconPath": "images/ring_focus.png"
+        "iconPath": "images/gray_me.png",
+        "selectedIconPath": "images/blue_me.png"
       }
     ]
   },
@@ -48,4 +50,3 @@
   },
   "debug": true
 }
-

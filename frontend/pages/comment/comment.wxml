@@ -10,7 +10,7 @@
                 <image src="../../images/user1.png"></image>
             </view>
             <view class="answerer-info flex-item">
-                <text class="answerer-name">from用户 {{comment.userid}}</text>
+                <text class="answerer-name">来自用户 {{comment.userid}}</text>
                 <text class="answerer-des">WEB前端*不靠谱天气预报员*想做代码小仙女</text>
             </view>
         </view>
@@ -43,8 +43,8 @@
                     <image src="../../images/flag.png"></image>
                     <text>没有帮助</text>
                 </view> -->
-                <view class="operation-btn flex-item" style="position: relative; left: -30rpx; top: 0rpx" bindtap="ChangeLike">
-                    <image src="../../images/gray_heart.png"></image>
+                <view class="operation-btn flex-item" style="position: relative; left: -50rpx; top: 0rpx" bindtap="ChangeLike">
+                    <image src="{{like_url}}"></image>
                     <text>喜欢</text>
                 </view>
                 <!-- <view class="operation-btn flex-item">
@@ -53,9 +53,12 @@
                 </view> -->
                 <view class="operation-btn flex-item" style="position: relative; left: -29rpx; top: 0rpx">
                     <image src="../../images/comment.png"></image>
-                    <text>302</text>
+                    <text>3</text>
                 </view>
-
+                <view class="operation-btn flex-item" bindtap="deleteComment">
+                  <image src="../../images/delete.png"></image>
+                  <text>删除</text>
+                </view>
             </view>
         </view>
 

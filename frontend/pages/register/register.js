@@ -35,7 +35,7 @@ Page({
       password:e.detail.value
     })
   },
-  //登录事件
+  //注册事件
   goadmin(){
     let flag = false  //表示账户是否存在,false为初始值
     if(this.data.username=='')
@@ -54,11 +54,12 @@ Page({
       const dataToSend = {
         username: this.data.username,
         password: this.data.password,
+        email: "default@default.com",
       };
 
       // 向本地服务器发送请求，这里假设你的本地服务器接口为'http://localhost:8080/login'
       wx.request({
-        url: `http://${app.globalData.ip}:${app.globalData.port}/user/login`, // 本地服务器接口地址
+        url: `http://${app.globalData.ip}:${app.globalData.port}/user/register`, // 本地服务器接口地址
         method: 'POST',
         data: dataToSend,
         header: {
@@ -75,12 +76,10 @@ Page({
                 icon: 'success',
                 duration: 2000
               });
-              // 假设服务器返回的JSON中包含token，将其保存到本地存储中
-              wx.setStorageSync('userInfo', res.data.data);
               // 登录成功后跳转到指定页面
-              wx.switchTab({
-                url: '/pages/index/index',
-              });
+              wx.navigateTo({
+                url: '/pages/login/login',
+              })
             } else {
               // 服务器返回的错误信息
               wx.showToast({
@@ -110,10 +109,5 @@ Page({
       })
     } 
   },
-  register: function(){
-    wx.reLaunch({
-      url: '/pages/register/register',
-    })
-  }
 })
  

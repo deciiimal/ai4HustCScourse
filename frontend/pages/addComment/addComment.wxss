@@ -1,0 +1,53 @@
+/* pages/addComment/addComment.wxss */
+.container {
+  padding: 30rpx;
+}
+
+.form-group {
+  margin-bottom: 30rpx;
+  width: 100%;
+}
+
+.form-label {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 15rpx;
+}
+
+.picker {
+  background-color: #fff;
+  padding: 20rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 8rpx;
+  font-size: small;
+}
+
+.feedback-input {
+  width: 100%;
+  height: 200rpx;
+  background-color: #fff;
+  padding: 20rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 8rpx;
+  box-sizing: border-box;
+  font-size: small;
+}
+
+.star-container {
+  display: flex;
+  align-items: center;
+}
+
+.star-item {
+  padding: 10rpx;
+}
+
+.star-image {
+  width: 50rpx;
+  height: 50rpx;
+}
+
+.submit-btn {
+  margin-top: 50rpx;
+  width: 100%;
+}

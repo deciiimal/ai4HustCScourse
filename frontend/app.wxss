@@ -11,9 +11,17 @@
 }
 
 .container.withtab{
-  margin: 105rpx 0 0 0;
+  margin: 150px 0 0 0;
+  height: 100%;
   /*top: 105rpx;*/
 }
+
+.container.withtab1{
+  margin: 50px 0 0 0;
+  height: 100%;
+  /*top: 105rpx;*/
+}
+
 .flex-wrp{
   display: flex;
 }
@@ -37,6 +45,19 @@
   margin: 0 0 8rpx 0;
   position: fixed;
   top: 0;
+  z-index: 9999;
+}
+.top-tab-local{
+  width: 750rpx;
+  height: 100rpx;
+  background: #298DE5;
+  color: #8CCEFD;
+  font-size: 28rpx;
+  line-height: 100rpx;
+  box-shadow: 0 2px 2px #bebebe;
+  margin: 0 0 8rpx 0;
+  position: fixed;
+  top: 90px;
   z-index: 9999;
 }
 .toptab.active{

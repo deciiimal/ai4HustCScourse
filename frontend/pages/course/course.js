@@ -3,7 +3,7 @@ var util = require('../../utils/util.js')
 var app = getApp()
 var wxCharts = require('../../utils/wxcharts.js');
 var lineChart = null;
-
+var courseid_g = 0;
 Page({
   data: {
     navTab: ["评论", "数据", "GPT"],
@@ -25,13 +25,22 @@ Page({
     textcolor2:'#bfbfbf',
     x_data: ["day1","day2","day3","day4","day5","day6","day7"],
     shoucang: ["1","3","5","4","1","3","2"],
-    cmtNum: [1,3,5,4,1,3,2]
+    cmtNum: [12,5,7,4,1,3,5],
+    chats: [
+      {
+        role: 'assistant',
+        content: '你好！我是AI助手，有什么可以帮你的吗？'
+      }
+    ],
+    inputMessage: '',
+    scrollToMessage: '',
   },
   onLoad: function (options) {
     console.log('onLoad')
     var that = this
     //调用应用实例的方法获取全局数据
     const courseid = options.courseid;
+    courseid_g = courseid;
     // this.refresh();
     if (courseid) { // 确保courseid存在
       this.getData(courseid);  //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -100,7 +109,30 @@ Page({
         console.error("统计数据请求失败：", error);
       }
     });
-
+    wx.request({
+      url: `http://${app.globalData.ip}:${app.globalData.port}/chat/${e}`,
+      method:'GET',
+      data:{},
+      header: {
+        'content-type': 'application/json', // 默认值
+        // 可以在这里设置额外的请求头
+        'Authorization': "Bearer " + wx.getStorageSync('userInfo').token,
+      },
+      success: function(res) {
+        console.log(res.data);
+        // 将新消息追加到现有消息后面
+        const updatedChats = [...that.data.chats, ...res.data.data.messages];
+        that.setData({
+          chats: updatedChats,
+          scrollToMessage: `msg-${updatedChats.length - 1}` // 可选：滚动到最新消息
+        });
+        console.log(that.data.chats);
+      },
+      fail: function(error) {
+        // 请求失败
+        console.error("对话数据请求失败：", error);
+      }
+    });
   },
 
   switchTab: function(e){
@@ -241,5 +273,80 @@ Page({
         lineStyle: 'Broken'  //曲线
       },
     });
+  },
+
+  // 输入框输入事件
+  onInput: function(e) {
+    this.setData({
+      inputMessage: e.detail.value
+    });
+  },
+
+  // 发送消息
+  sendMessage: function() {
+    var that = this;
+    if (!that.data.inputMessage.trim()) {
+      wx.showToast({
+        title: '问题不能为空',
+        icon: 'error',
+        duration: 2000,
+      });
+      return;
+    }
+    // 添加用户消息
+    const userMessage = {
+      message: that.data.inputMessage,
+      role: "user",
+    };
+
+    let newChats = [...that.data.chats, userMessage];
+    let bot_response = {};
+    wx.request({
+      url: `http://${app.globalData.ip}:${app.globalData.port}/chat/${courseid_g}`,
+      method:'POST',
+      data: {
+        message: that.data.inputMessage,
+      },
+      header: {
+        'content-type': 'application/json', // 默认值
+        // 可以在这里设置额外的请求头
+        'Authorization': "Bearer " + wx.getStorageSync('userInfo').token,
+      },
+      success: function(res) {
+        if(res.statusCode == '200'){
+          console.log(res.data);
+          // bot_response = res.data.data.messages.content;
+          // const aiMessage = {
+          //   role: 'assistant',
+          //   content: bot_response,
+          // };
+      
+          // newChats = [...newChats, aiMessage];
+          that.setData({
+            inputMessage: '',
+          });
+          that.onLoad();
+
+        }
+        else{
+          console.log("出错了!error: ",res.statusCode);
+          wx.showToast({
+            title: 'error' + res.statusCode,
+            icon: "error",
+            duration:2000,
+          })
+        }
+      },
+      fail: function(error) {
+        // 请求失败
+        wx.showToast({
+          title: '助手开小差了...',
+          icon: "none",
+          duration:2000,
+        })
+        console.error("对话请求失败", error);
+      }
+    })
+    // 模拟AI回复
   }
 });

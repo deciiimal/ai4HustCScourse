@@ -1,0 +1,54 @@
+<!--logs.wxml-->
+<view style="top: 0; background-color: rgb(240, 248, 255); height: 175rpx; width:100%;display: block; box-sizing: border-box;position: fixed;z-index: 9999;">
+  <image src="/images/huaxiaoke.png" style="height: 60px; width: 60px; position: relative; left: 33rpx; top: 30rpx"></image>
+  <text style="font-size: large; position: relative; left: 72rpx; top: -14rpx">{{userName}}</text>
+  <button bindtap="logout" style="font-size: medium; height: 40px; width: 80px; color: gray; position: relative; left: 254rpx; top: -77rpx; border-radius: 5px; border: rgb(153, 153, 153) 0.3px solid">注销</button>
+</view>
+<view class="top-tab-local flex-wrp flex-tab">
+  <view class="toptab flex-item {{currentNavtab==idx ? 'active' : ''}}" wx:for="{{navTab}}" wx:for-index="idx" wx:for-item="itemName" data-idx="{{idx}}" bindtap="switchTab">
+    {{itemName}}
+  </view>
+</view>
+<scroll-view scroll-y="true" class="container notify withtab" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+  <view class="ctnt0" hidden="{{currentNavtab==0 ? '' : true}}" style="position: relative;">
+    <view wx:if="{{myComment.length === 0}}" style="display: flex; justify-content: center; align-items: center; height: 100%;margin:50rpx;">
+      <text style="font-size: medium; color: gray;">暂无您创建的评论</text>
+    </view>
+    <view wx:else>
+      <block wx:for="{{myComment}}" wx:for-index="idx" wx:for-item="item" data-idx="{{idx}}">
+        <view class="comment-item" style="height: 299rpx; display: block; box-sizing: border-box;background-color: rgb(234, 240, 240);margin-bottom:20rpx;" bindtap="gotoCommentPage" data-commentid="{{item.commentid}}">
+          <view>
+            <image src= "../../images/user1.png" style="width: 37rpx; height: 33rpx; display: inline-block; box-sizing: border-box; position: relative; left: 31rpx; top: 37rpx"></image>
+            <text style="font-size: 13px; position: relative; left: 44rpx; top: 34rpx; color: gray">from 用户{{item.userid}}</text>
+            <text style="font-size: 13px; position: relative; left: -136rpx; top: 239rpx; color: gray">{{item.created_at}}</text>
+          </view>
+          <view style="position: relative; width: 641rpx; display: block; box-sizing: border-box; left: 31rpx; top: 56rpx">
+            <text style="font-size: 13px;  color: rgb(75, 75, 75)">{{item.content}}</text>
+          </view>
+
+        </view>
+      </block>
+    </view>
+
+  </view>
+  <view class="ctnt1 placehold" hidden="{{currentNavtab==1 ? '' : true}}">
+    <view wx:if="{{myLikeComment.length === 0}}" style="display: flex; justify-content: center; align-items: center; height: 100%;margin:50rpx;">
+      <text style="font-size: medium; color: gray;">暂无您喜欢的评论</text>
+    </view>
+    <view wx:else>
+      <block wx:for="{{myLikeComment}}" wx:for-index="idx" wx:for-item="item" data-idx="{{idx}}">
+        <view class="comment-item" style="height: 299rpx; display: block; box-sizing: border-box;background-color: rgb(234, 240, 240);margin-bottom:20rpx;top:-80rpx;position: relative;" bindtap="gotoCommentPage" data-commentid="{{item.commentid}}">
+          <view>
+            <image src= "../../images/user1.png" style="width: 37rpx; height: 33rpx; display: inline-block; box-sizing: border-box; position: relative; left: 31rpx; top: 37rpx"></image>
+            <text style="font-size: 13px; position: relative; left: 44rpx; top: 34rpx; color: gray">from 用户{{item.userid}}</text>
+            <text style="font-size: 13px; position: relative; left: -136rpx; top: 239rpx; color: gray">{{item.created_at}}</text>
+          </view>
+          <view style="position: relative; width: 641rpx; display: block; box-sizing: border-box; left: 31rpx; top: 56rpx">
+            <text style="font-size: 13px;  color: rgb(75, 75, 75)">{{item.content}}</text>
+          </view>
+
+        </view>
+      </block>
+    </view>
+  </view>
+</scroll-view>

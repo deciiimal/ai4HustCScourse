@@ -5,17 +5,8 @@
   </view>
 </view>
 
-<scroll-view scroll-y="true" class="container discovery withtab" bindscrolltoupper="upper" bindscrolltolower="lower"  scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
-  <view class="ctnt0" hidden="{{currentNavtab != 0}}">
-    <!-- <swiper class="activity" indicator-dots="{{indicatorDots}}"
-            autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-      <block wx:for="{{imgUrls}}">
-        <swiper-item>
-          <image src="{{item}}" class="slide-image" width="355" height="155"/>
-        </swiper-item>
-      </block>
-    </swiper> -->
-
+<scroll-view scroll-y="true" class="container discovery withtab1" bindscrolltoupper="upper" bindscrolltolower="lower"  scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+  <view class="ctnt0" hidden="{{currentNavtab != 2}}">
     <block wx:for="{{comment}}" wx:for-index="idx" wx:for-item="item" data-idx="{{idx}}">
       <view class="comment-item" style="height: 299rpx; display: block; box-sizing: border-box;background-color: rgb(234, 240, 240);margin-bottom:20rpx;" bindtap="gotoCommentPage" data-commentid="{{item.commentid}}">
         <view>
@@ -61,8 +52,38 @@
     </view>
 
   </view>
-  <view class="ctnt2 placehold" hidden="{{currentNavtab==2 ? '' : true}}">
-    <text>GPT功能</text>
+  <view class="ctnt2 placehold" hidden="{{currentNavtab==0 ? '' : true}}">
+    <view class="chat-container">
+      <!-- 聊天消息列表 -->
+      <scroll-view scroll-y class="chat-list" scroll-into-view="{{scrollToMessage}}">
+        <view wx:for="{{chats}}" wx:key="index" id="msg-{{index}}" class="message-item {{item.role === 'user' ? 'message-user' : 'message-assistant'}}">
+          <!-- 头像 -->
+          <image class="avatar" src="{{item.role==='user'?'/images/user_avatar.png':'/images/bot_avatar.png'}}"></image>
+          <!-- 消息内容 -->
+          <view class="message-content">
+            <view wx:if="{{item.role=='user'}}">
+              <text>{{item.content}}</text>
+            </view>
+            <view wx:else>
+              <wemark md="{{item.content}}" link highlight type="wemark"></wemark>
+            </view>
+
+          </view>
+        </view>
+      </scroll-view>
+
+    <!-- 底部输入区域 -->
+      <view class="input-area" >
+        <input class="message-input" 
+              type="text" 
+              value="{{inputMessage}}"
+              placeholder="请输入您的问题"
+              bindinput="onInput"
+              confirm-type="send"
+              bindconfirm="sendMessage"/>
+        <button class="send-btn" bindtap="sendMessage">发送</button>
+      </view>
+    </view>
   </view>
 </scroll-view>
 
