@@ -7,11 +7,31 @@ from app.models import MessageRole
 
 
 def kiwi_format_history(history: List):
-    return [{
+    system_prompt = [{
             "role": item.message_role,
             "content": item.content
-        } for item in history
+        } for item in history[:2]
     ]
+
+    token_cnt = 0
+
+    for item in system_prompt:
+        token_cnt += len(item["content"])
+        
+    user_history = []
+    for item in history[2::-1]:
+        user_history.append({
+            "role": item.message_role,
+            "content": item.content
+        })
+        
+        token_cnt += len(item.content)
+        if token_cnt > 4000:
+            break
+    
+    system_prompt.extend(user_history[::-1])
+    
+    return system_prompt
     
 def kiwi_create_prompt(message: str, course, comments):
     return [{
