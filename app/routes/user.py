@@ -4,8 +4,10 @@ from flask import Blueprint, request
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import jwt_required, get_jwt_identity
+
 from app import db
 from app.models import User, make_error_response, make_success_response, Message
+from app.utils import generate_avator_name, check_avatar_file
 
 # 用户蓝图
 user_bp = Blueprint('user', __name__)
@@ -182,4 +184,53 @@ def update_password():
     
     return make_success_response(
         message='Password updated successfully'
+    )
+    
+
+# 获取个人信息
+@user_bp.route('/me', methods=['GET'])
+@jwt_required()
+def get_myinfo():
+    userid = get_jwt_identity()
+    
+    user: User = User.query.get(userid)
+    
+    avatar = generate_avator_name(user.userid)
+    if not check_avatar_file(avatar):
+        avatar = ''
+    
+    return make_success_response(
+        userid=user.userid,
+        username=user.username,
+        avatar=avatar,
+        email=user.email,
+        banned=user.banned,
+        create_at=user.create_time
+    )
+    
+
+# 获取其他人信息
+@user_bp.route('/<int:userid>', methods=['GET'])
+@jwt_required()
+def get_info(userid):
+    
+    user: User | None = User.query.get(userid)
+    
+    if user is None:
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            f'no user {userid}'
+        )
+        
+    avatar = generate_avator_name(user.userid)
+    if not check_avatar_file(avatar):
+        avatar = ''
+        
+    return make_success_response(
+        userid=user.userid,
+        username=user.username,
+        avatar=avatar,
+        email=user.email,
+        banned=user.banned,
+        create_at=user.create_time
     )

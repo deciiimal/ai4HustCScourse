@@ -4,4 +4,6 @@ __*/
 test/
 images/
 
+**/.DS_Store
+
 app/config/config.json
