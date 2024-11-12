@@ -144,32 +144,25 @@ def get_course_stats(courseid):
 
 def get_lastweek_comments_likes_trend(courseid):
     course = Course.query.get(courseid)
-    
     if not course:
         return make_error_response(
             HTTPStatus.NOT_FOUND,
             'Course not found'
         )
-    
     now = datetime.now()
     one_week_ago = now - timedelta(days=7)
-    
     comments_trend = [0] * 7
     likes_trend = [0] * 7
-    
     comments = Comment.query.filter(Comment.courseid == courseid, Comment.create_time >= one_week_ago).all()
     likes = CourseStar.query.filter(CourseStar.courseid == courseid, CourseStar.create_time >= one_week_ago).all()
-    
     for comment in comments:
         days_ago = (now - comment.create_time).days
         if days_ago < 7:
             comments_trend[6 - days_ago] += 1
-    
     for like in likes:
         days_ago = (now - like.create_time).days
         if days_ago < 7:
             likes_trend[6 - days_ago] += 1
-    
     return make_success_response(
         comments_trend=comments_trend,
         likes_trend=likes_trend

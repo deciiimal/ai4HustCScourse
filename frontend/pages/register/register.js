@@ -5,6 +5,7 @@ Page({
   data: {
     username: '',
     password: '',
+    password1:'',
     clientHeight:''
   },
   onLoad(){
@@ -20,7 +21,7 @@ Page({
   },
   //协议
   goxieyi(){
-   wx.navigateTo({
+   wx.navigateTo({// 跳转到新的页面
      url: '/pages/oppoint/oppoint',
    })
   },
@@ -35,12 +36,22 @@ Page({
       password:e.detail.value
     })
   },
+  password1: function(e){
+    this.setData({
+      password1:e.detail.value
+    })
+  },
   //注册事件
-  goadmin(){
+  goLogin: function(){
+    wx.reLaunch({// 重新启动所有的页面，navigateTo是把新页面加入栈中，可以通过navigate回到原页面
+      url: '/pages/login/login',
+    })
+  },
+  add_userData(){
     let flag = false  //表示账户是否存在,false为初始值
     if(this.data.username=='')
     {
-      wx.showToast({
+      wx.showToast({// 给一个弹窗
         icon:'none',
         title: '账号不能为空',
       })
@@ -49,7 +60,13 @@ Page({
         icon:'none',
         title: '密码不能为空',
       })
-    }else{
+    }else if(this.data.password!=this.data.password1){
+      wx.showToast({
+        icon:'none',
+        title: '两次输入密码不一致'
+      })
+    }
+    else{
       // 构建要发送到服务器的账号和密码数据
       const dataToSend = {
         username: this.data.username,
@@ -65,27 +82,27 @@ Page({
         header: {
           'content-type': 'application/json' // 指定发送的数据类型为JSON
         },
-        success: (res) => {
+        success: (res) => {// 回调函数，request成功会执行下面的代码
           // 请求成功的处理逻辑
-          console.log(res.data); // 打印返回的JSON内容
+          console.log(res.data); // 打印返回的JSON内容，console就是终端
           if (res.statusCode === 200) {
             // 假设服务器返回的数据结构中，{ success: true, message: '登录成功', token: 'xxx' }
             if (res.data.status == "success") {
-              wx.showToast({
-                title: "Success!",
-                icon: 'success',
-                duration: 2000
-              });
               // 登录成功后跳转到指定页面
-              wx.navigateTo({
+              wx.navigateTo({// 转移到什么页面
                 url: '/pages/login/login',
               })
+              wx.showToast({
+                title: "注册成功!",
+                icon: 'success',// 图标写一个勾
+                duration: 1000
+              });
             } else {
               // 服务器返回的错误信息
               wx.showToast({
                 title: "error" + res.data.message,
                 icon: 'none',
-                duration: 2000
+                duration: 1500
               });
             }
           } else {

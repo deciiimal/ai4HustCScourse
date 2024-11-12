@@ -18,13 +18,6 @@ Page({
         url: '/pages/login/login'
       });
     } else {
-      // const course0 = this.data.course0;
-      // course0.forEach(item => {
-      //   item['image-url'] = this.data.defaultImageUrl; // 设置默认图片URL
-      // });
-      // that.setData({
-      //   course0: course0 // 更新数组
-      // });
       console.log('onLoad')
       that.getData();
     }

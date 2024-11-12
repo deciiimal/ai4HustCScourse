@@ -11,7 +11,7 @@ from app.models import Message, Comment, Course, User, make_error_response, make
 comment_bp = Blueprint('comment', __name__)
 
 
-@comment_bp.route('/<int:comment_id>', methods=['GET'])# POST方法用于创建评论
+@comment_bp.route('/<int:comment_id>', methods=['GET'])
 def get_comment(comment_id):
     comment = Comment.query.get(comment_id)
     if comment is None:

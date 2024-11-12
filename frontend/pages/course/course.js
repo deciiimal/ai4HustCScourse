@@ -296,7 +296,7 @@ Page({
         this.setData({
           buttonDisabled: false
         })
-      }, 1000
+      }, 10000
     )
     var that = this;
     if (!that.data.inputMessage.trim()) {
@@ -340,16 +340,16 @@ Page({
               // 可以在这里设置额外的请求头
               'Authorization': "Bearer " + wx.getStorageSync('userInfo').token,
             },
-            success: function(res) {
-              if (res.statusCode == 200) {
+            success: function(res1) {
+              if (res1.statusCode == 200) {
                 that.setData({
-                  chats: res.data.data.messages,
-                  scrollToMessage: `msg-${updatedChats.length - 1}` // 可选：滚动到最新消息
+                  chats: res1.data.data.messages,
+                  // scrollToMessage: `msg-${res1.data.data.messages.length - 1}` // 可选：滚动到最新消息
                 });
                 console.log(that.data.chats);
               } else {
                 wx.showToast({
-                  title: '重新加载失败 ' + res.statusCode,
+                  title: '重新加载失败 ' + res1.statusCode,
                   icon: "error",
                   duration: 2000,
                 });

@@ -5,24 +5,6 @@ Page({
   data: {
     username: '',
     password: '',
-    clientHeight:''
-  },
-  onLoad(){
-    var that=this
-    wx.getSystemInfo({ 
-      success: function (res) { 
-        console.log(res.windowHeight)
-          that.setData({ 
-              clientHeight:res.windowHeight
-        }); 
-      } 
-    }) 
-  },
-  //协议
-  goxieyi(){
-   wx.navigateTo({
-     url: '/pages/oppoint/oppoint',
-   })
   },
   //获取输入款内容
   content: function(e){
@@ -70,16 +52,16 @@ Page({
           if (res.statusCode === 200) {
             // 假设服务器返回的数据结构中，{ success: true, message: '登录成功', token: 'xxx' }
             if (res.data.status == "success") {
-              wx.showToast({
-                title: "Success!",
-                icon: 'success',
-                duration: 2000
-              });
               // 假设服务器返回的JSON中包含token，将其保存到本地存储中
               wx.setStorageSync('userInfo', res.data.data);
               // 登录成功后跳转到指定页面
               wx.switchTab({
                 url: '/pages/index/index',
+              });
+              wx.showToast({
+                title: "登录成功!",
+                icon: 'success',
+                duration: 1500
               });
             } else {
               // 服务器返回的错误信息
@@ -111,7 +93,7 @@ Page({
     } 
   },
   register: function(){
-    wx.reLaunch({
+    wx.reLaunch({// 重新启动所有的页面，navigateTo是把新页面加入栈中，可以通过navigate回到原页面
       url: '/pages/register/register',
     })
   }
