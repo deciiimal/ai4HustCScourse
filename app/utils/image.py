@@ -7,7 +7,7 @@ from PIL import Image
 from app import running_config
 
 
-def decode_avatar(base64_image: str):
+def decode_image(base64_image: str):
     try:
         image = base64.b64decode(base64_image)
     except Exception as e:
@@ -19,7 +19,7 @@ def decode_avatar(base64_image: str):
     return image
 
 
-def encode_avatar(image: Image.Image):
+def encode_image(image: Image.Image):
     buf = io.BytesIO()
     
     image.save(buf, 'png')
@@ -56,18 +56,35 @@ def format_avatar(image: Image.Image):
     return cropped_image
 
 
-def check_avatar_file(filename: str): 
+def format_cover(image: Image.Image):
+    target_size = 512
+    
+    raw_width, raw_height = image.size
+    
+    scale = max(target_size / raw_width, target_size / raw_height)
+    
+    new_size = (int(raw_width * scale), int(raw_height * scale))
+    
+    resized_image = image.resize(
+        size=new_size, 
+        resample=Image.Resampling.LANCZOS
+        )
+    
+    return resized_image
+
+
+def check_image(subdir: str, filename: str):
     prefix_path = running_config.get('IMAGE_URL')
     
-    full_path = os.path.join(prefix_path, 'avatars', filename)
+    full_path = os.path.join(prefix_path, subdir, filename)
     
     return os.path.exists(full_path)
-    
-    
-def save_avatar(image: Image.Image, filename: str):
+
+
+def save_image(image: Image.Image, subdir: str, filename: str):
     prefix_path = running_config.get('IMAGE_URL')
     
-    full_path = os.path.join(prefix_path, 'avatars', filename)
+    full_path = os.path.join(prefix_path, subdir, filename)
     
     os.makedirs(
         name=os.path.dirname(full_path), 
@@ -80,11 +97,11 @@ def save_avatar(image: Image.Image, filename: str):
         format='png'
         )
     
-
-def load_avatar(filename):
+    
+def load_image(subdir: str, filename: str):
     prefix_path = running_config.get('IMAGE_URL')
     
-    full_path = os.path.join(prefix_path, 'avatars', filename)
+    full_path = os.path.join(prefix_path, subdir, filename)
     
     if not os.path.exists(full_path):
         return None 
@@ -93,10 +110,61 @@ def load_avatar(filename):
     
     return image
 
+
+def check_avatar(filename: str): 
+    return check_image(
+        subdir='avatars', 
+        filename=filename
+        )
+    
+    
+def save_avatar(image: Image.Image, filename: str):
+    save_image(
+        image=image,
+        subdir='avatars',
+        filename=filename
+    )
+
+
+def load_avatar(filename: str):
+    return load_image(
+        subdir='avatars',
+        filename=filename
+    )
+    
+    
+def check_cover(filename: str): 
+    return check_image(
+        subdir='cover', 
+        filename=filename
+        )
+    
+    
+def save_cover(image: Image.Image, filename: str):
+    save_image(
+        image=image,
+        subdir='cover',
+        filename=filename
+    )
+
+
+def load_cover(filename: str):
+    return load_image(
+        subdir='cover',
+        filename=filename
+    )
+
+
+def generate_cover_name(courseid: int):
+    hashed_name = hashlib.sha256(f'courseid:{courseid}'.encode())
+    
+    filename = hashed_name.hexdigest()[:32] + '.png'
+    
+    return filename
     
         
 def generate_avator_name(userid: int):
-    hashed_name = hashlib.sha256(str(userid).encode())
+    hashed_name = hashlib.sha256(f'userid:{userid}'.encode())
     
     filename = hashed_name.hexdigest()[:32] + '.png'
     

@@ -7,7 +7,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app import db
 from app.models import User, make_error_response, make_success_response, Message
-from app.utils import generate_avator_name, check_avatar_file
+from app.utils import generate_avator_name, check_avatar
 
 # 用户蓝图
 user_bp = Blueprint('user', __name__)
@@ -196,7 +196,7 @@ def get_myinfo():
     user: User = User.query.get(userid)
     
     avatar = generate_avator_name(user.userid)
-    if not check_avatar_file(avatar):
+    if not check_avatar(avatar):
         avatar = ''
     
     return make_success_response(
@@ -223,7 +223,7 @@ def get_info(userid):
         )
         
     avatar = generate_avator_name(user.userid)
-    if not check_avatar_file(avatar):
+    if not check_avatar(avatar):
         avatar = ''
         
     return make_success_response(
