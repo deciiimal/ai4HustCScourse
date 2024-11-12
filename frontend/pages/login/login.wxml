@@ -2,7 +2,7 @@
  
  <!-- v2父容器  子view使用绝对布局 -->
    <view class="v2">
-     <view class="dltext" style="width: 232rpx; height: 92rpx; display: block; box-sizing: border-box; left: 0rpx; top: -2rpx">登录</view>
+     <view class="dltext" style="width: 232rpx; height: 92rpx; display: block; box-sizing: border-box; left: 200rpx; top: -27rpx; position: absolute">登录</view>
   
      <!-- 手机号 -->
      <view class="phoneCs">
@@ -17,9 +17,7 @@
      <!-- 登录按钮 -->
      <view class="denglu">
        <button class="btn-dl" type="primary" bindtap="goadmin">登录</button>
-       <view class="register" bindtap="register">
-         去注册
-     </view>
+       <view class="register" bindtap="register">去注册</view>
      </view>
    </view>
  </view>

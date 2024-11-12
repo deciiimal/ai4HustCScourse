@@ -3,7 +3,7 @@
  
  <!-- v2父容器  子view使用绝对布局 -->
    <view class="v2">
-     <view class="dltext" style="width: 232rpx; height: 92rpx; display: block; box-sizing: border-box; left: 0rpx; top: -2rpx">注册</view>
+     <view class="dltext" style="width: 232rpx; height: 92rpx; display: block; box-sizing: border-box; left: 197rpx; top: -12rpx; position: absolute">注册</view>
   
      <!-- 手机号 -->
      <view class="phoneCs">
@@ -15,12 +15,19 @@
        <image src="../../images/password.png" class="ps"></image>
        <input placeholder="请输入密码" type="password" bindinput="password" value="{{password}}" />
      </view>
+     <!-- 密码 -->
+     <view class=passwordCs" style="position: absolute; left: 0rpx; top: 152rpx">
+       <image src="../../images/password.png" class="ps"></image>
+       <input placeholder="再次输入密码" type="password" bindinput="password1" value="{{password1}}" />
+       <!-- input事件，type是输入密码加密字符，bindinput是触发password函数，value里面的password是将data中的password展示出来 -->
+     </view>
      <!-- 登录按钮 -->
      <view class="denglu">
-       <button class="btn-dl" type="primary" bindtap="goadmin">注册</button>
-       <!-- <view class="register" bindtap="goLogin">
-         去登录
-     </view> -->
+       <button class="btn-dl" type="primary" bindtap="add_userData" style="position: relative; left: 0rpx; top: 164rpx">注册</button>
+       <view class="register" bindtap="goLogin" style="position: relative; left: 0rpx; top: 191rpx">
+       <!-- bindtap为goLogin，这个函数在js里面定义，点击就会调用这个函数 -->
+         已有账号，去登录
+     </view>
      </view>
    </view>
  </view>

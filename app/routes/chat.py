@@ -13,6 +13,7 @@ chat_bp = Blueprint("chat", __name__)
 @chat_bp.route("/<int:courseid>", methods=["POST"])
 @jwt_required()
 def chat(courseid):
+    print("chat")
     userid = get_jwt_identity()
 
     data = request.get_json()

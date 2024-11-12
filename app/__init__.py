@@ -9,6 +9,7 @@ from openai import OpenAI
 db = SQLAlchemy()
 jwt = JWTManager()
 kiwi_client: OpenAI = None
+running_config = {}
 
 def create_app():
     app = flask.Flask(__name__)
@@ -21,6 +22,7 @@ def create_app():
     else:
         app.config.from_file("./config/config.example.json", load=json.load)
         print(f"no config.json found, use example")
+        
     
     db.init_app(app)
     jwt.init_app(app)
@@ -30,6 +32,17 @@ def create_app():
         api_key=app.config.get("KIWI_API_KEY"),
         base_url=app.config.get("KIWI_BASE_URL")
     )
+    
+    global running_config
+    running_config = {
+        k: v for (k, v) in app.config
+    }
+    
+    print('running configuration:')
+    for (k, v) in running_config:
+        print(f'\t{k}: {v}')
+    else:
+        print()
     
     # 注册蓝图
     from .routes import user_bp

@@ -2,5 +2,6 @@
 .*/
 __*/
 test/
+images/
 
 app/config/config.json

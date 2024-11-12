@@ -296,7 +296,7 @@ Page({
         this.setData({
           buttonDisabled: false
         })
-      }, 1000
+      }, 10000
     )
     var that = this;
     if (!that.data.inputMessage.trim()) {
@@ -340,11 +340,11 @@ Page({
               // 可以在这里设置额外的请求头
               'Authorization': "Bearer " + wx.getStorageSync('userInfo').token,
             },
-            success: function(res1) {
-              if (res1.statusCode == 200) {
+            success: function(res11) {
+              if (res11.statusCode == 200) {
                 that.setData({
                   chats: res1.data.data.messages,
-                  scrollToMessage: `msg-${res1.data.data.messages.length - 1}` // 可选：滚动到最新消息
+                  // scrollToMessage: `msg-${res1.data.data.messages.length - 1}` // 可选：滚动到最新消息
                 });
                 console.log(that.data.chats);
               } else {

@@ -10,23 +10,21 @@
                 <image src="../../images/user1.png"></image>
             </view>
             <view class="answerer-info flex-item">
-                <text class="answerer-name">来自用户 {{comment.userid}}</text>
-                <text class="answerer-des">WEB前端*不靠谱天气预报员*想做代码小仙女</text>
+                <text class="answerer-name" style="position: relative; left: -1rpx; top: 17rpx">来自用户 {{comment.username}}</text>
             </view>
         </view>
     </view>
     <view class="answer-content" style="position: relative; left: -58rpx; top: 58rpx; width: 100%; display: block; box-sizing: border-box">
     <view style="position: relative; left: 0rpx; top: -2rpx">
-      <text style="position: relative; left: 64rpx; top: -26rpx">评分星级</text>
-      <ratingStar number="{{comment.star}}" style="position: relative; left: 208rpx; top: -93rpx"></ratingStar>  
+      <text style="position: relative; left: 66rpx; top: -26rpx">评分星级</text>
+      <ratingStar number="{{comment.star}}" style="position: relative; left: 249rpx; top: -93rpx"></ratingStar>  
       <text>{{comment.star}}</text>  
     </view>
     <view style="position: relative; left: 66rpx; top: -131rpx">
-      <text>评价内容：{{comment.content}}</text>     
+      <text style="position: relative; left: 0rpx; top: 42rpx">评价内容
+        
+        {{comment.content}}</text>     
     </view>
-    <view>
-      <image src="/images/classroom.jpg" style="position: relative; width: 662rpx; left: 62rpx; top: -74rpx; display: inline-block; box-sizing: border-box; height: 389rpx"></image>   
-    </view>   
         
     </view>
 

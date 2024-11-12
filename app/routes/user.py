@@ -18,7 +18,7 @@ def register():
     username = info.get('username')
     password = info.get('password')
     email = info.get('email')
-    
+
     if not username or not password or not email:
         return make_error_response(
             HTTPStatus.BAD_REQUEST,
@@ -35,7 +35,7 @@ def register():
     # 创建新用户
     hashed_password = generate_password_hash(password)
     user: User = User(username=username, password=hashed_password, email=email)
-    
+
     db.session.add(user)
     db.session.commit()
     
