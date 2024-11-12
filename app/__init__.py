@@ -35,11 +35,11 @@ def create_app():
     
     global running_config
     running_config = {
-        k: v for (k, v) in app.config
+        k: v for (k, v) in app.config.items()
     }
     
     print('running configuration:')
-    for (k, v) in running_config:
+    for (k, v) in running_config.items():
         print(f'\t{k}: {v}')
     else:
         print()
@@ -62,6 +62,9 @@ def create_app():
     
     from .routes import search_bp
     app.register_blueprint(search_bp, url_prefix='/search')
+    
+    from .routes import image_bp
+    app.register_blueprint(image_bp, url_prefix='')
 
     for rule in app.url_map.iter_rules():
         print(f'path: {rule.rule}\tmethod: {rule.methods}')
