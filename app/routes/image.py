@@ -55,6 +55,7 @@ def upload_avatar():
 @image_bp.route('/avatar/filename/<int:userid>', methods=['GET'])
 def get_avatar_name(userid):
     avatar = generate_avator_name(userid)
+    
     if not check_avatar(avatar):
         avatar = ''
     
@@ -66,6 +67,31 @@ def get_avatar_name(userid):
 @image_bp.route('/avatar/<string:filename>', methods=['GET'])
 def get_avatar(filename: str):
     image = load_avatar(filename)
+    
+    if image is None:
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            'not found'
+        )
+        
+    base64_image = encode_image(image)
+    
+    return make_success_response(
+        image=base64_image
+    )
+    
+
+@image_bp.route('/avatar/d/<int:userid>', methods=['GET'])
+def get_avatar_by_userid(userid: int):
+    avatar = generate_avator_name(userid)
+    
+    if not check_avatar(avatar):
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            f'no user {userid} or user do not have a avatar'
+        )
+        
+    image = load_avatar(avatar)
     
     if image is None:
         return make_error_response(

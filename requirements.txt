@@ -1,6 +1,8 @@
 Flask==3.0.3
 Flask_JWT_Extended==4.6.0
 flask_sqlalchemy==3.1.1
-openai==1.53.0
+openai==1.54.4
+Pillow==11.0.0
+pymysql==1.0.2
 SQLAlchemy==2.0.34
-Werkzeug==3.1.1
+Werkzeug==3.1.3
