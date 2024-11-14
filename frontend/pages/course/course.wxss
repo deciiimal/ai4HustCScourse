@@ -126,4 +126,43 @@
   border-radius: 10rpx;
   margin: 0;
   padding: 0;
+
+}
+
+/* 显示评论框的样式 */
+.comment-box {
+  margin: 25rpx;
+  padding: 20rpx;
+  background-color: #ffffff;
+  border-radius: 12rpx; /* 圆角边框 */
+  border: 1rpx solid #e0e0e0; /* 边框颜色 */
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1); /* 柔和的阴影效果 */
+}
+
+.comment-box .title {
+  font-weight: bold;
+  font-size: 30rpx;
+  color: #333333;
+  margin-bottom: 10rpx; /* 标题下方间隔 */
+}
+
+.comment-box .star-rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+
+.comment-box .star-rating text {
+  font-size: 28rpx;
+  color: #ff9900; /* 星级颜色 */
+  margin-left: 8rpx;
+}
+
+.comment-box .content {
+  font-size: 26rpx;
+  color: #666666;
+  line-height: 1.5; /* 增加行高，文本更易读 */
+  background-color: #f7f7f7; /* 评价内容的背景色 */
+  padding: 15rpx;
+  border-radius: 8rpx; /* 内部内容区域的圆角 */
 }

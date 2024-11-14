@@ -8,17 +8,26 @@
 <scroll-view scroll-y="true" class="container discovery withtab1" bindscrolltoupper="upper" bindscrolltolower="lower"  scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
   <view class="ctnt0" hidden="{{currentNavtab != 0}}">
     <block wx:for="{{comment}}" wx:for-index="idx" wx:for-item="item" data-idx="{{idx}}">
-      <view class="comment-item" style="height: 299rpx; display: block; box-sizing: border-box;background-color: rgb(234, 240, 240);margin-bottom:20rpx;" bindtap="gotoCommentPage" data-commentid="{{item.commentid}}">
-        <view>
-          <image src= "../../images/user1.png" style="width: 37rpx; height: 33rpx; display: inline-block; box-sizing: border-box; position: relative; left: 31rpx; top: 37rpx"></image>
-          <text style="font-size: 13px; position: relative; left: 44rpx; top: 34rpx; color: gray">from 用户{{item.userid}}</text>
-          <text style="font-size: 13px; position: relative; left: -136rpx; top: 239rpx; color: gray">{{item.timestamp}}</text>
-        </view>
-        <view style="position: relative; width: 641rpx; display: block; box-sizing: border-box; left: 31rpx; top: 56rpx">
-          <text style="font-size: 13px;  color: rgb(75, 75, 75)">{{item.content}}</text>
-        </view>
+      <!-- for后面需要传入的参数是一个list，用于显示list中的元素 -->
+      <!-- wx:for-index后面的是循环的变量，相当于 for i, item in enum():。 -->
+      <view class="comment-box" style="display: block; background-color: rgb(234, 240, 240); margin-bottom: 20rpx;" bindtap="gotoCommentPage" data-commentid="{{item.commentid}}">
+        <!-- 用户信息部分 -->
+        <view class="user-info" style="display: flex; align-items: center; padding: 15rpx;">
+          <image src="{{item.image64 ? item.image64 : '../../images/user1.png'}}" style="width: 40rpx; height: 40rpx; margin-right: 10rpx; border-radius: 50%;"></image>
 
+          <text style="font-size: 14px; color: gray;">来自 {{item.username}}</text>
+          <text style="font-size: 14px; color: gray; margin-left: auto;">{{item.create_at}}</text>
+        </view>
+        
+        <!-- 评论内容部分 -->
+        <view class="comment-content" style="padding: 15rpx; padding-top: 0;">
+          <text style="font-size: 16px; color: rgb(75, 75, 75); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+            {{item.content}}
+          </text>
+        </view>
       </view>
+
+
     </block>
   </view>
   <view class="ctnt1 placehold" hidden="{{currentNavtab != 1}}" style="height:500px">

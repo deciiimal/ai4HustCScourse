@@ -14,61 +14,34 @@
       </view>
   </view>
   <block wx:for="{{course0}}" wx:for-index="idx" wx:for-item="item" wx:key="courseid">
-    <view style="height: 399rpx; display: block; box-sizing: border-box" bindtap="gotoCoursePage" data-courseid="{{item.courseid}}" data-name="{{item.name}}">
-      <view class="course_pic" style="background-color: rgb(238, 240, 240);margin-bottom: 0;">
-        <image src= "{{item.image_url}}" style="width: 252rpx; box-sizing: border-box; height: 350rpx;margin: 10rpx;"></image>
-      </view>
-      <view style="position: relative; left: 0rpx; top: 25rpx">
-        <!-- <text>{{item.course_name}}</text> -->
-        <text style="position: relative; font-size: 12px; left: 297rpx; top: -285rpx">类别：{{item.category}}</text>
-        <text style="font-size: 12px; position: relative; left: 297rpx; top: -285rpx">
-          授课老师：{{item.teacher}}
-        </text>
-        <text style="position: relative; left: 297rpx; top: -425rpx; font-size: 15px">{{item.name}}</text>
-        
-        <view style="position: relative; left: -8rpx; top: 0rpx">
-          <image src="../../images/commentIcon.png" style="width: 45rpx; height: 43rpx; display: inline-block; box-sizing: border-box; position: relative; left: 297rpx; top: -223rpx"></image>
-          <view style="position: relative; width: 347rpx; height: 60rpx; overflow: scroll; display: block; box-sizing: border-box; left: 347rpx; top: -268rpx">
-            <text style="position: relative;font-size: 12px;" >{{item.description}}</text> 
-          </view>
-                
-        </view>
-      </view>
+    <view class="course-item" bindtap="gotoCoursePage" data-courseid="{{item.courseid}}" data-name="{{item.name}}">
+      <!-- data-courseid和data-name就表示当前事件有两个参数：courseid和name，会作为参数传递给gotoCoursePage函数 -->
+  <!-- 图片展示区域 -->
+  <view class="course-pic">
+    <image src="{{item.image_url}}" class="course-image"></image>
+  </view>
+  
+  <!-- 课程信息区域 -->
+  <view class="course-info">
+    <!-- 课程类别标签 -->
+      
+        <!-- 课程名称 -->
+        <text class="course-name">{{item.name}}</text>
+
+    <view class="course-tag {{item.category == '专业核心课' ? 'core' : 'elective'}}">
+      <text>{{item.category}}</text>
     </view>
+    
+    <!-- 授课老师信息 -->
+    <text class="course-teacher">授课老师：{{item.teacher}}</text>
+    
+    <!-- 评论图标和简介 -->
+    <view class="course-description">
+      <image src="../../images/commentIcon.png" class="comment-icon"></image>
+      <text>{{item.description}}</text>
+    </view>
+  </view>
+</view>
+
   </block>
 </scroll-view>
-
-    <!-- <view class="feed-item">
-        <view class="feed-source">
-            <a class="">
-                <view class="avatar">
-                    <image src="{{item.feed_source_img}}"></image>
-                </view>
-                <text>{{item.feed_source_name}}{{item.feed_source_txt}}</text>
-            </a>
-            <image class="item-more" mode="aspectFit" src="../../images/more.png"></image>
-        </view>
-        <view class="feed-content">
-            <view class="question" qid="{{question_id}}" bindtap="bindQueTap">
-                <a class="question-link">
-                    <text>{{item.question}}</text>
-                </a>
-            </view>
-            <view class="answer-body">
-                <view bindtap="bindItemTap">
-                    <text class="answer-txt" aid="{{answer_id}}">{{item.answer_ctnt}}</text>
-                </view>
-                <view class="answer-actions" bindtap="bindItemTap">
-                    <view class="like dot">
-                        <a>{{item.good_num}} 赞同 </a>
-                    </view>
-                    <view class="comments dot">
-                        <a>{{item.comment_num}} 评论 </a>
-                    </view>
-                    <view class="follow-it">
-                        <a>关注问题</a>
-                    </view>
-                </view>
-            </view>
-        </view>
-    </view> -->

@@ -51,3 +51,100 @@
   margin-top: 50rpx;
   width: 100%;
 }
+/* pages/addComment/addComment.wxss */
+
+/* 页面容器 */
+.container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+/* 表单项 */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* 标签 */
+.form-label {
+  font-size: 20px;  /* 增大字体 */
+  color: #333;
+  margin-bottom: 12px;  /* 增大间距 */
+  font-weight: bold;
+}
+
+/* 选择器容器 */
+.picker-container {
+  padding: 12px;
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  display: flex;
+  justify-content: center;  /* 使选择框居中 */
+  align-items: center;
+}
+
+.picker {
+  font-size: 16px;
+  color: #333;
+}
+
+/* 评分容器 */
+.rating-group {
+  padding: 5px 0; /* 减小上下内边距 */
+}
+
+.star-container {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.star-item {
+  width: 24px;
+  height: 24px;
+}
+
+/* 星星图片 */
+.star-image {
+  width: 100%;
+  height: 100%;
+}
+
+/* 课程评价输入框 */
+.feedback-group {
+  margin-top: 10px;  /* 增加与评分的间隔 */
+}
+
+.feedback-input {
+  width: 100%;
+  min-height: 220px;  /* 增大输入框高度 */
+  padding: 12px;
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  color: #333;
+  resize: none;
+}
+
+/* placeholder样式 */
+.feedback-input::placeholder {
+  font-size: 28px;  /* 增大字体 */
+  color: #888;      /* 可选：调整颜色 */
+}
+/* 提交按钮 */
+.submit-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #1c74e9;
+  color: white;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.submit-btn:active {
+  background-color: #1764d0;
+}

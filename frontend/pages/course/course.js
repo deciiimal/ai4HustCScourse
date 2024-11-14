@@ -4,6 +4,47 @@ var app = getApp()
 var wxCharts = require('../../utils/wxcharts.js');
 var lineChart = null;
 var courseid_g = 0;
+function getImage64(userid) {
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: `http://${app.globalData.ip}:${app.globalData.port}/avatar/d/${userid}`,  // 你的后端接口
+      method: 'GET',
+      data: {},
+      success: (res) => {
+        if (res.statusCode === 200) {
+          resolve(res.data.base64);
+        } else {
+          reject('Failed to get image64');
+        }
+      },
+      fail: (err) => {
+        reject(err);
+      }
+    });
+  });
+}
+
+// 更新 comment 中每个元素
+async function updateCommentsWithImage64(comments, that) {
+  const updatedComments = [];
+
+  // 遍历评论列表，异步获取每个用户的 image64
+  for (let comment of comments) {
+    try {
+      const image64 = await getImage64(comment.userid);  // 获取 image64
+      comment.image64 = image64;  // 将 image64 添加到 comment 中
+    } catch (error) {
+      // console.error(`Failed to get image64 for ${comment.userid}: `, error);
+      comment.image64 = null;  // 如果获取失败，可以给一个默认值
+    }
+    updatedComments.push(comment);  // 将更新后的评论添加到新的列表中
+  }
+
+  // 更新 data
+  that.setData({
+    comment: updatedComments
+  });
+}
 Page({
   data: {
     navTab: ["评论", "数据", "GPT"],
@@ -73,15 +114,13 @@ Page({
         'content-type': 'application/json' // 默认值
         // 可以在这里设置额外的请求头
       },
-      success: function(res) {
-        // 请求成功，res是返回的数据
-        console.log(res.data);
-        // 这里可以处理返回的数据，例如保存到页面的data中
-        that.setData({
-          comment: res.data.data.comments,
-    
-        });
-        console.log(that.data.comment);
+      success: function(res) { // success是指返回了正常的响应，而不是指返回的响应是正确的
+        if (res.statusCode === 200) {
+          const comments = res.data.data.comments;
+          updateCommentsWithImage64(comments, that);  // 在获取到评论数据后更新评论
+        } else {
+          console.error('Failed to get comments');
+        }
       },
       fail: function(error) {
         // 请求失败

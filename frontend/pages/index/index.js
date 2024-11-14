@@ -72,7 +72,7 @@ Page({
   //使用本地 fake 数据实现刷新效果
   getData: function(){
     console.log("loaddata");
-    var that = this;
+    var that = this;// this可以看作指针，that也是指针，这样赋值是因为this会不断改变指向的对象
     wx.request({
       url: `http://${app.globalData.ip}:${app.globalData.port}/course`, // 替换为你的服务器接口地址
       method: 'GET', // 或者 'POST', 根据你的接口要求

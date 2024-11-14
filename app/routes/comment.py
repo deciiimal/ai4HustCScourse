@@ -24,6 +24,7 @@ def get_comment(comment_id):
         comment={
             "commentid": comment.commentid,
             "userid": comment.userid,
+            "username": User.query.get(comment.userid).username,
             "courseid": comment.courseid,
             "parent_commentid": comment.parent_commentid,
             "likes_count": comment.likes_count,

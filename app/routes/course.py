@@ -3,7 +3,7 @@ from flask import Blueprint, request, jsonify, abort
 from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app import db
-from app.models import CourseStar, Course, Comment, make_success_response, make_error_response, user
+from app.models import CourseStar, Course, Comment, make_success_response, make_error_response, User
 from app.utils import admin_required
 from datetime import datetime, timedelta
 
@@ -103,6 +103,7 @@ def get_course_comments(courseid):
             'commentid': comment.commentid,
             'courseid': comment.courseid,
             'userid': comment.userid,
+            'username': User.query.get(comment.userid).username,
             'content': comment.content,
             'star': comment.star,
             'create_at': comment.create_time

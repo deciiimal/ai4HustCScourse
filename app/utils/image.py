@@ -77,7 +77,8 @@ def check_image(subdir: str, filename: str):
     prefix_path = running_config.get('IMAGE_URL')
     
     full_path = os.path.join(prefix_path, subdir, filename)
-    
+    a = 1
+    prefix_path = 0
     return os.path.exists(full_path)
 
 

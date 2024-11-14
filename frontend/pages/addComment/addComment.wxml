@@ -1,27 +1,31 @@
-<!--pages/addComment/addComment.wxml-->
+<!-- pages/addComment/addComment.wxml -->
 <view class="container">
+  <!-- 选择课程 -->
   <view class="form-group">
     <view class="form-label">选择课程</view>
-    <picker bindchange="bindPickerChange" value="{{courseIndex}}" range="{{courseList}}" mode="selector">
+    <picker bindchange="bindPickerChange" value="{{courseIndex}}" range="{{courseList}}" mode="selector" class="picker-container">
       <view class="picker">
         {{courseList[courseIndex]}}
       </view>
     </picker>
   </view>
 
-  <view class="form-group">
-    <view class="form-label">课程评价</view>
-    <textarea class="feedback-input" placeholder="请输入您的评价内容" placeholder-style="font-size:small" bindinput="handleInput" value="{{content}}"/>
-  </view>
-
-  <view class="form-group">
+  <!-- 评分 -->
+  <view class="form-group rating-group">
     <view class="form-label">评分</view>
     <view class="star-container">
       <view class="star-item" wx:for="{{5}}" wx:key="index" bindtap="handleStarClick" data-index="{{index}}">
-        <image class="star-image" src="{{index<rating?'/images/star_yellow.png':'/images/star_gray.png'}}"/>
+        <image class="star-image" src="{{index < rating ? '/images/star_yellow.png' : '/images/star_gray.png'}}"/>
       </view>
     </view>
   </view>
 
+  <!-- 课程评价 -->
+  <view class="form-group feedback-group">
+    <view class="form-label">课程评价</view>
+    <textarea class="feedback-input" placeholder="请输入您的评价内容" placeholder-style="font-size:small" bindinput="handleInput" value="{{content}}"/>
+  </view>
+
+  <!-- 提交按钮 -->
   <button class="submit-btn" type="primary" bindtap="handleSubmit">提交评价</button>
 </view>

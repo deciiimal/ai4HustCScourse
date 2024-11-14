@@ -78,27 +78,43 @@ Page({
     };
     console.log(dataToPost);
     wx.request({
-      url: `http://${app.globalData.ip}:${app.globalData.port}/comment`,
+      url: `http://${app.globalData.ip}:${app.globalData.port}/comment/`,
       data: dataToPost,
       method: "POST",
       header: {
         'content-type': 'application/json', // 默认值
-        // 可以在这里设置额外的请求头
         'Authorization': "Bearer " + wx.getStorageSync('userInfo').token,
       },
-      success: (res) =>{
-        wx.showToast({
-          title: '评价提交成功',
-          icon: 'success'
-        })        
+      success: (res) => {
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          // 检查是否成功返回了 2xx 状态码
+          if (res.data) {
+            // 检查业务逻辑是否成功（假设返回的 JSON 中有 `success` 字段）
+            wx.showToast({
+              title: '评价提交成功',
+              icon: 'success'
+            });
+          } else {
+            // 处理业务逻辑错误
+            wx.showToast({
+              title: '您已提交过评论',
+              icon: "error"
+            });
+          }
+        } else {
+          // 如果状态码不在 2xx 范围内，认为请求失败
+          wx.showToast({
+            title: '您已评论过该课程',
+            icon: "error"
+          });
+        }
       },
-      fail: (res) =>{
+      fail: (res) => {
         wx.showToast({
-          title: '评价提交失败',
+          title: '网络请求失败',
           icon: "error"
-        })
+        });
       },
-    })
-
+    });
   }
 })
