@@ -124,3 +124,75 @@
   color: #555;
   line-height: 1.5;
 }
+/* 课程名称及其右侧爱心按钮的容器 */
+.course-name-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 课程名和爱心按钮两端对齐 */
+  margin-bottom: 5rpx; /* 增加一点间距 */
+}
+
+/* 课程名称样式 */
+.course-name {
+  font-size: 22px; /* 增大课程名称字体 */
+  font-weight: bold;
+  color: #333;
+  flex-grow: 1; /* 确保课程名称占据剩余空间 */
+}
+
+/* 右侧小爱心按钮 */
+.operation-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer; /* 提示是可点击的 */
+}
+
+.heart-icon {
+  width: 42rpx; /* 增大爱心图标的大小 */
+  height: 35rpx;
+}
+/* 重新加载按钮样式 */
+.reload-btn {
+  position: fixed;
+  bottom: 20px;  /* 距离底部20px */
+  right: 20px;   /* 距离右侧20px */
+  width: 50px;
+  height: 50px;
+  background-color: #ffffff;
+  border-radius: 50%; /* 圆形按钮 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999; /* 确保按钮浮在页面最上面 */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 按钮内图标 */
+.reload-icon {
+  width: 30px;
+  height: 30px;
+  color: white;
+}
+
+/* Loading 遮罩层 */
+.loading-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+/* Loading 弹窗 */
+.loading-popup {
+  padding: 20px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

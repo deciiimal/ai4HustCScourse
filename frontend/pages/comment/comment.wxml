@@ -58,7 +58,7 @@
                 </view> -->
                 <view class="operation-btn flex-item" style="position: relative; left: -29rpx; top: 0rpx">
                     <image src="../../images/comment.png"></image>
-                    <text>3</text>
+                    <text>发表子评论</text>
                 </view>
                 <view class="operation-btn flex-item" bindtap="deleteComment">
                   <image src="../../images/delete.png"></image>

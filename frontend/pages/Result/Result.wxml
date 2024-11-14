@@ -1,50 +1,38 @@
 <!--pages/Result/Result.wxml-->
 <scroll-view scroll-y="true" class="container" bindscrolltoupper="upper" upper-threshold="10" lower-threshold="5" bindscrolltolower="lower"  scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
   <block wx:for="{{searchCourse}}" wx:for-index="idx" wx:for-item="item" wx:key="courseid">
-    <view style="height: 399rpx; display: block; box-sizing: border-box" bindtap="gotoCoursePage" data-courseid="{{item.courseid}}" data-name="{{item.name}}">
-      <view class="course_pic" style="background-color: rgb(238, 240, 240);margin-bottom: 0;">
-        <image src= "{{item.image_url}}" style="width: 252rpx; box-sizing: border-box; height: 350rpx;margin: 10rpx;"></image>
+    <view class="course-item">
+      <!-- 将跳转事件绑定到课程图片的点击 -->
+      <view class="course-pic" bindtap="gotoCoursePage" data-courseid="{{item.courseid}}" data-name="{{item.name}}">
+        <image src="{{item.image_url}}" class="course-image"></image>
       </view>
-      <view style="position: relative; left: 0rpx; top: 25rpx">
-        <!-- <text>{{item.course_name}}</text> -->
-        <text style="position: relative; font-size: 12px; left: 297rpx; top: -285rpx">类别：{{item.category}}</text>
-        <text style="font-size: 12px; position: relative; left: 297rpx; top: -285rpx">
-          授课老师：{{item.teacher}}
-        </text>
-        <text style="position: relative; left: 297rpx; top: -425rpx; font-size: 15px">{{item.name}}</text>
-        
-        <view style="position: relative; left: -8rpx; top: 0rpx">
-          <image src="../../images/commentIcon.png" style="width: 45rpx; height: 43rpx; display: inline-block; box-sizing: border-box; position: relative; left: 297rpx; top: -223rpx"></image>
-          <view style="position: relative; width: 347rpx; height: 60rpx; overflow: scroll; display: block; box-sizing: border-box; left: 347rpx; top: -268rpx">
-            <text style="position: relative;font-size: 12px;" >{{item.description}}</text> 
+
+      <!-- 课程信息区域 -->
+      <view class="course-info">
+        <!-- 课程名称和右侧爱心 -->
+        <view class="course-name-container">
+          <text class="course-name">{{item.name}}</text>
+          <!-- 右侧小爱心，绑定收藏事件 -->
+          <view class="operation-btn flex-item" bindtap="ChangeLike" data-courseid="{{item.courseid}}" data-idx="{{idx}}">
+            <image src="{{item.liked ? '../../images/red_heart.png' : '../../images/gray_heart.png'}}" class="heart-icon" />
           </view>
-                
+        </view>
+
+        <!-- 课程类别标签 -->
+        <view class="course-tag {{item.category == '专业核心课' ? 'core' : 'elective'}}">
+          <text>{{item.category}}</text>
+        </view>
+
+        <!-- 授课老师信息 -->
+        <text class="course-teacher">授课老师：{{item.teacher}}</text>
+
+        <!-- 评论图标和简介 -->
+        <view class="course-description">
+          <image src="../../images/commentIcon.png" class="comment-icon"></image>
+          <text>{{item.description}}</text>
         </view>
       </view>
     </view>
   </block>
 
 </scroll-view>
-<block wx:for="{{course0}}" wx:for-index="idx" wx:for-item="item" wx:key="courseid">
-    <view style="height: 399rpx; display: block; box-sizing: border-box" bindtap="gotoCoursePage" data-courseid="{{item.courseid}}" data-name="{{item.name}}">
-      <view class="course_pic" style="background-color: rgb(238, 240, 240);margin-bottom: 0;">
-        <image src= "{{item.image_url}}" style="width: 252rpx; box-sizing: border-box; height: 350rpx;margin: 10rpx;"></image>
-      </view>
-      <view style="position: relative; left: 0rpx; top: 25rpx">
-        <!-- <text>{{item.course_name}}</text> -->
-        <text style="position: relative; font-size: 12px; left: 297rpx; top: -285rpx">类别：{{item.category}}</text>
-        <text style="font-size: 12px; position: relative; left: 297rpx; top: -285rpx">
-          授课老师：{{item.teacher}}
-        </text>
-        <text style="position: relative; left: 297rpx; top: -425rpx; font-size: 15px">{{item.name}}</text>
-        
-        <view style="position: relative; left: -8rpx; top: 0rpx">
-          <image src="../../images/commentIcon.png" style="width: 45rpx; height: 43rpx; display: inline-block; box-sizing: border-box; position: relative; left: 297rpx; top: -223rpx"></image>
-          <view style="position: relative; width: 347rpx; height: 60rpx; overflow: scroll; display: block; box-sizing: border-box; left: 347rpx; top: -268rpx">
-            <text style="position: relative;font-size: 12px;" >{{item.description}}</text> 
-          </view>
-                
-        </view>
-      </view>
-    </view>
-  </block>

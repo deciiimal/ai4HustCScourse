@@ -52,3 +52,190 @@
   padding: 80rpx 0;
   font-size: 28rpx
 }
+/* 页面的主容器 */
+.ctnt0 {
+  padding: 30rpx;
+  background-color: #f4f7f6; /* 页面背景色 */
+}
+
+/* 当没有评论时的提示样式 */
+.no-comments {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300rpx;
+  margin-top: 50rpx;
+}
+
+.no-comments-text {
+  font-size: 16px;
+  color: gray;
+}
+
+/* 评论项的样式 */
+.course-item {
+  display: flex;
+  background-color: #f5f7f7;
+  margin: 16rpx;
+  padding: 20rpx;
+  border-radius: 20rpx;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 评论课程名称的样式 */
+.comment-course-name {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10rpx;
+  font-weight: bold; /* 课程名称加粗 */
+}
+
+/* 评论内容的样式 */
+.comment-content {
+  font-size: 16px; /* 放大评论内容 */
+  color: #4b4b4b;
+  line-height: 1.6;
+  white-space: nowrap; /* 不允许换行 */
+  overflow: hidden; /* 隐藏超出部分 */
+  text-overflow: ellipsis; /* 使用省略号表示超出的内容 */
+}
+
+/* 评论时间样式 */
+.comment-time {
+  font-size: 12px;
+  color: #999;
+  margin-top: 10rpx;
+}
+.course-pic {
+  flex-shrink: 0;
+  margin-right: 20rpx;
+}
+.course-image {
+  width: 252rpx;
+  height: 280rpx;
+  border-radius: 15rpx;
+  object-fit: cover;
+}
+
+/* 课程信息样式 */
+.course-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 课程类别标签 */
+.course-tag {
+  display: inline-block;
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 15rpx;
+}
+.course-tag.core {
+  background-color: #e74c3c; /* 红色背景 */
+}
+.course-tag.elective {
+  background-color: #3498db; /* 蓝色背景 */
+}
+
+/* 课程名称 */
+.course-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+/* 授课老师信息 */
+.course-teacher {
+  font-size: 14px;
+  color: gray;
+  margin-bottom: 15rpx;
+}
+
+/* 评论图标和简介 */
+.course-description {
+  display: flex;
+  align-items: flex-start;
+}
+.comment-icon {
+  width: 45rpx;
+  height: 43rpx;
+  margin-right: 10rpx;
+}
+.course-description text {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+}
+/* 课程名称及其右侧爱心按钮的容器 */
+.course-name-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 课程名和爱心按钮两端对齐 */
+  margin-bottom: 5rpx; /* 增加一点间距 */
+}
+
+/* 课程名称样式 */
+.course-name {
+  font-size: 22px; /* 增大课程名称字体 */
+  font-weight: bold;
+  color: #333;
+  flex-grow: 1; /* 确保课程名称占据剩余空间 */
+}
+
+/* 右侧小爱心按钮 */
+.operation-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer; /* 提示是可点击的 */
+}
+
+.heart-icon {
+  width: 42rpx; /* 增大爱心图标的大小 */
+  height: 35rpx;
+}
+/* 外部容器样式 */
+.top-tab-local {
+  width: 100%; /* 确保占满父容器 */
+  background-color: #f5f5f5; /* 设置背景色 */
+}
+
+/* 用来控制 tab 排列的 flex 布局样式 */
+.flex-wrp {
+  display: flex; /* 使用 flex 布局 */
+  flex-wrap: wrap; /* 允许换行 */
+  justify-content: space-between; /* 让子项在水平方向上分布 */
+}
+
+/* 控制每个 tab 的样式 */
+.flex-tab {
+  display: flex;             /* 使用 flex 布局 */
+  flex-grow: 1;              /* 让容器可以自适应父容器的宽度 */
+  padding: 0rpx 0;          /* 设置上下内边距 */
+  box-sizing: border-box;    /* 确保内边距不会影响总宽度 */
+  justify-content: space-between; /* 使得 tab 项水平分布 */
+}
+
+
+/* 每个 tab 项的基础样式 */
+.toptab {
+  flex: 1; /* 每个 tab 平分父容器的宽度 */
+  text-align: center; /* 内容居中 */
+  padding: 0rpx; /* 给每个 tab 添加内边距 */
+  cursor: pointer; /* 鼠标悬浮时显示点击样式 */
+  box-sizing: border-box; /* 保证 padding 不影响宽度 */
+}
+
+/* 激活 tab 项的样式 */
+.toptab.active {
+  color: #2A8CE5; /* 激活时字体颜色 */
+  font-weight: bold; /* 激活时加粗字体 */
+  border-bottom: 6rpx solid #2A8CE5; /* 增加底部边框来突出显示 */
+}

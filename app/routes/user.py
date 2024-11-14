@@ -149,7 +149,39 @@ def update_username():
     return make_success_response(
         message='Username updated successfully'
     )
+
+# 修改邮箱
+@user_bp.route('/email', methods=['PUT'])
+@jwt_required()
+def update_email():
+    user_id = get_jwt_identity()
+    new_email = request.get_json().get('email')
+    if not new_email:
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            'email is required'
+        )
     
+    if User.query.filter_by(email=new_email).first():
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            '邮箱已被绑定'
+        )
+    
+    user = User.query.get(user_id)
+    if not user:
+        return make_error_response(
+            HTTPStatus.NOT_FOUND,
+            'User not found'
+        )
+    
+    user.email = new_email
+    db.session.commit()
+    
+    return make_success_response(
+        message='email updated successfully'
+    )
+
 # 修改密码
 @user_bp.route('/password', methods=['PUT'])
 @jwt_required()

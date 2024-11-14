@@ -45,3 +45,109 @@
   color: #000;
 }
 /*feed-item part is in app.wxss for multiplexing*/
+
+.course-item {
+  display: flex;
+  background-color: #f5f7f7;
+  margin: 30rpx;
+  padding: 20rpx;
+  border-radius: 20rpx;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 图片样式 */
+.course-pic {
+  flex-shrink: 0;
+  margin-right: 20rpx;
+}
+.course-image {
+  width: 252rpx;
+  height: 280rpx;
+  border-radius: 15rpx;
+  object-fit: cover;
+}
+
+/* 课程信息样式 */
+.course-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 课程类别标签 */
+.course-tag {
+  display: inline-block;
+  padding: 8rpx 20rpx;
+  border-radius: 20rpx;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 15rpx;
+}
+.course-tag.core {
+  background-color: #e74c3c; /* 红色背景 */
+}
+.course-tag.elective {
+  background-color: #3498db; /* 蓝色背景 */
+}
+
+/* 课程名称 */
+.course-name {
+  font-size: 20px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+/* 授课老师信息 */
+.course-teacher {
+  font-size: 14px;
+  color: gray;
+  margin-bottom: 15rpx;
+}
+
+/* 评论图标和简介 */
+.course-description {
+  display: flex;
+  align-items: flex-start;
+}
+.comment-icon {
+  width: 45rpx;
+  height: 43rpx;
+  margin-right: 10rpx;
+}
+.course-description text {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.5;
+}
+/* 课程名称及其右侧爱心按钮的容器 */
+.course-name-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* 课程名和爱心按钮两端对齐 */
+  margin-bottom: 5rpx; /* 增加一点间距 */
+}
+
+/* 课程名称样式 */
+.course-name {
+  font-size: 22px; /* 增大课程名称字体 */
+  font-weight: bold;
+  color: #333;
+  flex-grow: 1; /* 确保课程名称占据剩余空间 */
+}
+
+/* 右侧小爱心按钮 */
+.operation-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer; /* 提示是可点击的 */
+}
+
+.heart-icon {
+  width: 42rpx; /* 增大爱心图标的大小 */
+  height: 35rpx;
+}

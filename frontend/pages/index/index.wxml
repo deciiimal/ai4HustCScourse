@@ -1,47 +1,63 @@
-<!--index.wxml-->
-<scroll-view scroll-y="true" class="container" bindscrolltoupper="upper" upper-threshold="10" lower-threshold="5" bindscrolltolower="lower"  scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
+<scroll-view scroll-y="true" class="container" bindscrolltoupper="upper" upper-threshold="10" lower-threshold="5" bindscrolltolower="lower" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
   <view class="search flex-wrp">
     <view class="search-left flex-item">
       <image src="../../images/search.png"></image>
-      <input placeholder="搜索课程, 评论or人" 
+      <input placeholder="搜索课程名称/老师姓名" 
             placeholder-class="search-placeholder" 
             bindinput="onSearchInput"
             bindconfirm="inputSearch"
             value="{{searchKeyword}}" />
+            <!-- bindinput是指输入内容之后会触发后面的函数，而bindconfirm是指按下确认按钮的时候会调用后面的函数 -->
     </view>
-      <view class="search-right flex-item" bindtap="upper">
-          <image src="../../images/lighting.png"></image>
-      </view>
+    <view class="search-right flex-item" bindtap="inputSearch">
+      <image src="../../images/lighting.png"></image>
+    </view>
   </view>
+
   <block wx:for="{{course0}}" wx:for-index="idx" wx:for-item="item" wx:key="courseid">
-    <view class="course-item" bindtap="gotoCoursePage" data-courseid="{{item.courseid}}" data-name="{{item.name}}">
-      <!-- data-courseid和data-name就表示当前事件有两个参数：courseid和name，会作为参数传递给gotoCoursePage函数 -->
-  <!-- 图片展示区域 -->
-  <view class="course-pic">
-    <image src="{{item.image_url}}" class="course-image"></image>
-  </view>
-  
-  <!-- 课程信息区域 -->
-  <view class="course-info">
-    <!-- 课程类别标签 -->
-      
-        <!-- 课程名称 -->
-        <text class="course-name">{{item.name}}</text>
+    <view class="course-item">
+      <!-- 将跳转事件绑定到课程图片的点击 -->
+      <view class="course-pic" bindtap="gotoCoursePage" data-courseid="{{item.courseid}}" data-name="{{item.name}}">
+        <image src="{{item.image_url}}" class="course-image"></image>
+      </view>
 
-    <view class="course-tag {{item.category == '专业核心课' ? 'core' : 'elective'}}">
-      <text>{{item.category}}</text>
-    </view>
-    
-    <!-- 授课老师信息 -->
-    <text class="course-teacher">授课老师：{{item.teacher}}</text>
-    
-    <!-- 评论图标和简介 -->
-    <view class="course-description">
-      <image src="../../images/commentIcon.png" class="comment-icon"></image>
-      <text>{{item.description}}</text>
-    </view>
-  </view>
-</view>
+      <!-- 课程信息区域 -->
+      <view class="course-info">
+        <!-- 课程名称和右侧爱心 -->
+        <view class="course-name-container">
+          <text class="course-name">{{item.name}}</text>
+          <!-- 右侧小爱心，绑定收藏事件 -->
+          <view class="operation-btn flex-item" bindtap="ChangeLike" data-courseid="{{item.courseid}}" data-idx="{{idx}}">
+            <image src="{{item.liked ? '../../images/red_heart.png' : '../../images/gray_heart.png'}}" class="heart-icon" />
+          </view>
+        </view>
 
+        <!-- 课程类别标签 -->
+        <view class="course-tag {{item.category == '专业核心课' ? 'core' : 'elective'}}">
+          <text>{{item.category}}</text>
+        </view>
+
+        <!-- 授课老师信息 -->
+        <text class="course-teacher">授课老师：{{item.teacher}}</text>
+
+        <!-- 评论图标和简介 -->
+        <view class="course-description">
+          <image src="../../images/commentIcon.png" class="comment-icon"></image>
+          <text>{{item.description}}</text>
+        </view>
+      </view>
+    </view>
   </block>
 </scroll-view>
+
+<!-- 悬浮刷新旋钮 -->
+<view class="reload-btn" bindtap="reloadPage">
+  <image src="../../images/refresh.png" class="reload-icon" />
+</view>
+
+<!-- Loading 弹窗 -->
+<view class="loading-mask" wx:if="{{loading}}">
+  <view class="loading-popup">
+    <text>加载中...</text>
+  </view>
+</view>

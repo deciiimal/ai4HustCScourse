@@ -71,7 +71,7 @@ Page({
     chats: [
       {
         role: 'assistant',
-        content: '你好！我是AI助手，有什么可以帮你的吗？'
+        content: '我是AI助手，您可以向我提出任何有关该课程的问题！'
       }
     ],
     inputMessage: '',

@@ -1,0 +1,83 @@
+<view class="container">
+  <!-- 用户信息显示 -->
+  <view class="info-item">
+  <view class="info-label">头像</view>
+  <view class="info-content">
+    <image src="{{show}}" class="user-avatar" />
+  </view>
+  <button class="modify-btn" bindtap="modifyAvatar">修改头像</button>
+</view>
+
+  <view class="info-item">
+    <view class="info-label">用户ID</view>
+    <view class="info-content">{{userInfo.userid}}</view>
+    <!-- <button class="modify-btn" data-type="userid">不可修改</button> -->
+  </view>
+
+  <view class="info-item">
+    <view class="info-label">用户名</view>
+    <view class="info-content">{{userInfo.username}}</view>
+    <button class="modify-btn" bindtap="modifyUserInfo" data-type="username">修改</button>
+  </view>
+
+  <view class="info-item">
+    <view class="info-label">邮箱</view>
+    <view class="info-content">{{userInfo.email}}</view>
+    <button class="modify-btn" bindtap="modifyUserInfo" data-type="email">修改</button>
+  </view>
+
+  <!-- 修改密码按钮 -->
+  <button class="modify-password-btn" bindtap="modifyPassword">修改密码</button>
+
+  <!-- 登出按钮 -->
+  <button class="logout-btn" bindtap="logout">登出</button>
+
+  <!-- 弹窗：修改信息 -->
+  <view class="modal" wx:if="{{showModal}}">
+  <!-- Modal 内容 -->
+  <view class="modal-content">
+    <!-- 右上角关闭按钮 -->
+    <text class="modal-close-btn" bindtap="closeModal">❌</text>
+    
+    <!-- 弹窗标题和输入框 -->
+    <text class="modal-title">请输入新的{{modalType}}</text>
+    <input type="text" placeholder="请输入新{{modalType}}" bindinput="onInputChange" value="{{modalInput}}" />
+    
+    <!-- 确认按钮 -->
+    <button class="modal-confirm-btn" bindtap="confirmModification">确认修改</button>
+  </view>
+</view>
+
+
+  <!-- 弹窗：修改密码 -->
+  <view class="modal" wx:if="{{showPasswordModal}}">
+    <view class="modal-content">
+      <text class="modal-close-btn" bindtap="closePasswordModal">❌</text>
+      <text class="modal-title">修改密码</text>
+      <input type="password" placeholder="请输入原密码" bindinput="onOldPasswordInput" value="{{oldPassword}}" />
+      <input type="password" placeholder="请输入新密码" bindinput="onNewPasswordInput" value="{{newPassword}}" />
+      <input type="password" placeholder="确认新密码" bindinput="onConfirmNewPasswordInput" value="{{confirmNewPassword}}" />
+      <button class="modal-confirm-btn" bindtap="confirmPasswordModification">确认修改</button>
+    </view>
+  </view>
+
+  <!-- 弹窗：修改头像 -->
+<view class="modal" wx:if="{{showAvatarModal}}">
+  <view class="modal-content">
+    <!-- 右上角关闭按钮 -->
+    <text class="modal-close-btn" bindtap="closeAvatarModal">❌</text>
+
+    <text class="modal-title">上传头像</text>
+
+    <!-- 文件上传按钮 -->
+    <button class="upload-btn" bindtap="chooseAvatar">选择图片</button>
+
+    <!-- 显示选择的图片 -->
+    <image class="selected-avatar" src="{{base64}}" wx:if="{{avatarBase64}}" />
+
+    <!-- 确认按钮 -->
+    <button class="modal-confirm-btn" bindtap="confirmAvatarModification" wx:if="{{avatarBase64}}">确认修改</button>
+  </view>
+</view>
+
+</view>

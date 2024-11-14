@@ -1,0 +1,207 @@
+/* 整体容器 */
+.container {
+  padding: 30rpx;
+  background-color: #f9f9f9;
+}
+
+/* 用户信息项 */
+.info-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 30rpx;
+  background-color: #fff;
+  padding: 20rpx;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%; /* 使得信息框宽度与按钮一致 */
+}
+
+.info-label {
+  flex: 2;
+  font-size: 28rpx;
+  color: #333;
+  background-color: #f0f8ff;
+  padding: 12rpx;
+  border-radius: 8px;
+  text-align: center;
+  white-space: nowrap; /* 防止换行 */
+}
+
+.info-content {
+  flex: 4;
+  font-size: 28rpx;
+  color: #555;
+  text-align: center;
+  white-space: nowrap; /* 防止换行 */
+}
+
+.modify-btn {
+  margin-left: 20rpx;
+  font-size: 26rpx;
+  color: #0068C4;
+  background-color: transparent;
+  border: 1px solid #0068C4;
+  padding: 6rpx 12rpx;
+  border-radius: 5px;
+  white-space: nowrap; /* 防止换行 */
+}
+
+/* 修改密码和登出按钮 */
+.modify-password-btn, .logout-btn {
+  width: 100%;
+  margin-top: 40rpx;
+  padding: 15rpx 0;
+  background-color: #0068C4;
+  color: white;
+  font-size: 28rpx;
+  text-align: center;
+  border-radius: 8px;
+}
+
+/* 弹窗 */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  width: 80%;
+  max-width: 500rpx;
+  background: white;
+  padding: 40rpx; /* 增加上下左右的内边距 */
+  border-radius: 8px;
+}
+
+
+.modal-title {
+  font-size: 30rpx;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+input {
+  width: 100%;
+  padding: 20rpx 12rpx; /* 增大上下内边距，提升输入框的舒适度 */
+  margin-bottom: 20rpx;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 32rpx; /* 增大字体，突出显示提示语 */
+  height: 60rpx; /* 增加输入框的高度，避免提示语和输入框紧贴 */
+}
+
+input::placeholder {
+  font-size: 32rpx; /* 增加提示语的字体大小 */
+  color: #999; /* 可自定义颜色 */
+  padding-top: 8rpx; /* 增加提示语和输入框之间的间距 */
+}
+
+
+
+.modal-confirm-btn {
+  width: 100%;
+  padding: 16rpx; /* 增加上下内边距 */
+  background-color: #0068C4;
+  color: white;
+  font-size: 30rpx; /* 增加字体大小 */
+  text-align: center;
+  border-radius: 8px;
+  border: none;
+}
+
+
+/* 为按钮添加悬停效果 */
+.modify-btn:hover, .modal-confirm-btn:hover, .modify-password-btn:hover, .logout-btn:hover {
+  background-color: #005aa5;
+  cursor: pointer;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* 背景变暗 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  position: relative;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 80%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+.modal-title {
+  font-size: 18px;
+  margin-bottom: 15px;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.modal-confirm-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: #007aff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+.user-avatar {
+  width: 120px;  /* 头像宽度 */
+  height: 120px; /* 头像高度 */
+  border-radius: 50%;  /* 圆形头像 */
+  object-fit: cover; /* 保持比例，填充容器 */
+}
+
+
+/* 上传按钮样式 */
+.upload-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  margin: 10px 0;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* 选择的头像图片预览样式 */
+.selected-avatar {
+  width: 100px;
+  height: 100px;
+  margin: 10px 0;
+  object-fit: cover;
+}
+
+/* 确认修改按钮 */
+.modal-confirm-btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px;
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}

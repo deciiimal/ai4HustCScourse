@@ -187,7 +187,7 @@ def get_my_comments():
         {
             'commentid': comment.commentid,
             'courseid': comment.courseid,
-            'userid': comment.userid,
+            'coursename': Course.query.get(comment.courseid).coursename,
             'content': comment.content,
             'star': comment.star,
             'created_at': comment.create_time

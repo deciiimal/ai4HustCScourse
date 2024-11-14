@@ -10,7 +10,9 @@
     "pages/comment/comment",
     "pages/register/register",
     "pages/addComment/addComment",
-    "pages/Result/Result"
+    "pages/Result/Result",
+    "pages/setting",
+    "pages/setting/setting"
   ],
   "window": {
     "backgroundTextStyle": "light",

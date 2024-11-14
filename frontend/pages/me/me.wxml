@@ -1,37 +1,112 @@
 <!--logs.wxml-->
-<view style="top: 0; background-color: rgb(240, 248, 255); height: 175rpx; width:100%;display: block; box-sizing: border-box;position: fixed;z-index: 9999;">
-  <image src="/images/huaxiaoke.png" style="height: 60px; width: 60px; position: relative; left: 35rpx; top: 30rpx"></image>
-  <text style="font-size: large; position: relative; left: 72rpx; top: -14rpx">{{userName}}</text>
-  <button bindtap="logout" style="font-size: medium; height: 40px; width: 80px; color: gray; position: relative; left: 227rpx; top: -75rpx; border-radius: 5px; border: rgb(153, 153, 153) 0.3px solid">注销</button>
+<view style="top: 0rpx; background-color: rgb(240, 248, 255); height: 175rpx; width: 100%; display: flex; box-sizing: border-box; position: fixed; z-index: 9999; padding: 20rpx 20rpx; align-items: center; justify-content: space-between; left: 0rpx">
+  
+  <!-- 左侧头像 -->
+  <image src="{{base64}}" style="height: 160rpx; width: 160rpx; border-radius: 50%;"></image>
+  
+  <!-- 用户信息区域 -->
+  <view style="flex: 1; margin-left: 20rpx;">
+  <!-- 用户名保持默认颜色 -->
+  <text style="font-size: 35rpx; display: block;">用户名: {{info.username}}</text>
+
+  <!-- 其他信息为灰色 -->
+  <text style="font-size: 24rpx; display: block; color: gray;">用户ID: {{info.userid}}</text>
+  <text style="font-size: 24rpx; display: block; color: gray;">邮箱: {{info.email}}</text>
+  <text style="font-size: 24rpx; display: block; color: gray;">注册时间: {{info.create_at}}</text>
 </view>
+
+  <!-- 右侧齿轮图标 -->
+  <view style="margin-left: 0rpx;">
+    <image src="/images/gear.webp" style="height: 60rpx; width: 60rpx;" bindtap="gotoSettings"></image>
+  </view>
+
+</view>
+
 <view class="top-tab-local flex-wrp flex-tab">
-  <view class="toptab flex-item {{currentNavtab==idx ? 'active' : ''}}" wx:for="{{navTab}}" wx:for-index="idx" wx:for-item="itemName" data-idx="{{idx}}" bindtap="switchTab">
+  <view class="toptab flex-item {{currentNavtab == idx ? 'active' : ''}}" 
+        wx:for="{{navTab}}" 
+        wx:for-index="idx" 
+        wx:for-item="itemName" 
+        data-idx="{{idx}}" 
+        bindtap="switchTab">
     {{itemName}}
   </view>
 </view>
+
+
 <scroll-view scroll-y="true" class="container notify withtab" bindscrolltoupper="upper" bindscrolltolower="lower" bindscroll="scroll" scroll-into-view="{{toView}}" scroll-top="{{scrollTop}}">
-  <view class="ctnt0" hidden="{{currentNavtab==0 ? '' : true}}" style="position: relative;">
-    <view wx:if="{{myComment.length === 0}}" style="display: flex; justify-content: center; align-items: center; height: 100%;margin:50rpx;">
-      <text style="font-size: medium; color: gray;">暂无您创建的评论</text>
-    </view>
-    <view wx:else>
-      <block wx:for="{{myComment}}" wx:for-index="idx" wx:for-item="item" data-idx="{{idx}}">
-        <view class="comment-item" style="height: 299rpx; display: block; box-sizing: border-box;background-color: rgb(234, 240, 240);margin-bottom:20rpx;" bindtap="gotoCommentPage" data-commentid="{{item.commentid}}">
-          <view>
-            <image src= "../../images/user1.png" style="width: 37rpx; height: 33rpx; display: inline-block; box-sizing: border-box; position: relative; left: 31rpx; top: 37rpx"></image>
-            <text style="font-size: 13px; position: relative; left: 44rpx; top: 34rpx; color: gray">from 用户{{item.userid}}</text>
-            <text style="font-size: 13px; position: relative; left: -136rpx; top: 239rpx; color: gray">{{item.created_at}}</text>
-          </view>
-          <view style="position: relative; width: 641rpx; display: block; box-sizing: border-box; left: 31rpx; top: 56rpx">
-            <text style="font-size: 13px;  color: rgb(75, 75, 75)">{{item.content}}</text>
-          </view>
-
-        </view>
-      </block>
-    </view>
-
+  <view class="ctnt0" hidden="{{currentNavtab == 0 ? '' : true}}" style="position: relative;">
+  <!-- 当没有评论时，显示暂无评论 -->
+  <view wx:if="{{course0.length === 0}}" class="no-comments">
+    <text class="no-comments-text">暂无您收藏的课程</text>
   </view>
-  <view class="ctnt1 placehold" hidden="{{currentNavtab==1 ? '' : true}}">
+  <view wx:else>
+    <block wx:for="{{course0}}" wx:for-index="idx" wx:for-item="item" wx:key="courseid">
+    <view class="course-item">
+      <!-- 将跳转事件绑定到课程图片的点击 -->
+      <view class="course-pic" bindtap="gotoCoursePage" data-courseid="{{item.courseid}}" data-name="{{item.name}}">
+        <image src="{{item.image_url}}" class="course-image"></image>
+      </view>
+
+      <!-- 课程信息区域 -->
+      <view class="course-info">
+        <!-- 课程名称和右侧爱心 -->
+        <view class="course-name-container">
+          <text class="course-name">{{item.name}}</text>
+          <!-- 右侧小爱心，绑定收藏事件 -->
+          <view class="operation-btn flex-item" bindtap="ChangeLike" data-courseid="{{item.courseid}}" data-idx="{{idx}}">
+            <image src="{{item.liked ? '../../images/red_heart.png' : '../../images/gray_heart.png'}}" class="heart-icon" />
+          </view>
+        </view>
+
+        <!-- 课程类别标签 -->
+        <view class="course-tag {{item.category == '专业核心课' ? 'core' : 'elective'}}">
+          <text>{{item.category}}</text>
+        </view>
+
+        <!-- 授课老师信息 -->
+        <text class="course-teacher">授课老师：{{item.teacher}}</text>
+
+        <!-- 评论图标和简介 -->
+        <view class="course-description">
+          <image src="../../images/commentIcon.png" class="comment-icon"></image>
+          <text>{{item.description}}</text>
+        </view>
+      </view>
+    </view>
+  </block>
+  </view>
+  </view>
+  <view class="ctnt0" hidden="{{currentNavtab == 1 ? '' : true}}" style="position: relative;">
+  <!-- 当没有评论时，显示暂无评论 -->
+  <view wx:if="{{myComment.length === 0}}" class="no-comments">
+    <text class="no-comments-text">暂无您创建的评论</text>
+  </view>
+
+  <!-- 否则显示评论 -->
+  <view wx:else>
+    <block wx:for="{{myComment}}" wx:for-index="idx" wx:for-item="item" data-idx="{{idx}}">
+      <view class="comment-item" bindtap="gotoCommentPage" data-commentid="{{item.commentid}}">
+        <!-- 评论课程名称 -->
+        <view class="comment-course-name">
+          评论课程: {{item.coursename}}
+        </view>
+
+        <!-- 评论内容 -->
+        <view class="comment-content">
+          <text>{{item.content}}</text>
+        </view>
+
+        <!-- 评论时间 -->
+        <view class="comment-time">
+          <text>{{item.created_at}}</text>
+        </view>
+      </view>
+    </block>
+  </view>
+</view>
+
+  <view class="ctnt1 placehold" hidden="{{currentNavtab==2 ? '' : true}}">
     <view wx:if="{{myLikeComment.length === 0}}" style="display: flex; justify-content: center; align-items: center; height: 100%;margin:50rpx;">
       <text style="font-size: medium; color: gray;">暂无您喜欢的评论</text>
     </view>

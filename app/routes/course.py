@@ -81,7 +81,7 @@ def like_course(courseid):
     
     elif request.method == 'GET':
         return make_success_response(
-            liked=star is not None
+            liked=star is not None  
         )
         
     return make_success_response()
