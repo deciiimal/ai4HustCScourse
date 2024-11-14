@@ -1,13 +1,14 @@
 import os
 import flask
 import json
-
+import sched
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 from openai import OpenAI
 
 db = SQLAlchemy()
 jwt = JWTManager()
+scheduler: sched.scheduler = None
 kiwi_client: OpenAI = None
 running_config = {}
 
@@ -37,6 +38,11 @@ def create_app():
     running_config = {
         k: v for (k, v) in app.config.items()
     }
+    
+    global scheduler
+    # scheduler = sched.scheduler(
+        
+    # )
     
     print('running configuration:')
     for (k, v) in running_config.items():

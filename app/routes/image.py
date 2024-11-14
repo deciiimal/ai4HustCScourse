@@ -172,3 +172,28 @@ def get_cover(filename: str):
     return make_success_response(
         image=base64_image
     )
+    
+    
+@image_bp.route('/cover/d/<int:courseid>', methods=['GET'])
+def get_cover_by_courseid(courseid: int):
+    avatar = generate_avator_name(courseid)
+    
+    if not check_avatar(avatar):
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            f'no course {courseid} or course do not have a cover'
+        )
+        
+    image = load_avatar(avatar)
+    
+    if image is None:
+        return make_error_response(
+            HTTPStatus.BAD_REQUEST,
+            'not found'
+        )
+        
+    base64_image = encode_image(image)
+    
+    return make_success_response(
+        image=base64_image
+    )

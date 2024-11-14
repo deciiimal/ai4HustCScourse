@@ -2,6 +2,12 @@
     "SECRET_KEY": "123456",
     "SQLALCHEMY_DATABASE_URI": "mysql+pymysql://root:123456@127.0.0.1:3306/db",
     "SQLALCHEMY_TRACK_MODIFICATIONS": false,
+
+    "SQLALCHEMY_POOL_RECYCLE": 28000,
+    "SQLALCHEMY_ENGINE_OPTIONS": {
+        "pool_pre_ping": true
+    },
+    "JWT_ACCESS_TOKEN_EXPIRES": 86400,
     "JWT_SECRET_KEY": "654321",
 
     "KIWI_API_KEY": "",

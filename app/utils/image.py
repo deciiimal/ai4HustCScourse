@@ -52,7 +52,7 @@ def format_avatar(image: Image.Image):
     cropped_image = resized_image.crop(
         box=(left, top, right, bottom)
     )
-    
+    converted_image = cropped_image.convert('RGB')
     return cropped_image
 
 
@@ -95,7 +95,7 @@ def save_image(image: Image.Image, subdir: str, filename: str):
     # 包不报错的
     image.save(
         fp=full_path, 
-        format='png'
+        format='webp'
         )
     
     
@@ -159,7 +159,7 @@ def load_cover(filename: str):
 def generate_cover_name(courseid: int):
     hashed_name = hashlib.sha256(f'courseid:{courseid}'.encode())
     
-    filename = hashed_name.hexdigest()[:32] + '.png'
+    filename = hashed_name.hexdigest()[:32] + '.webp'
     
     return filename
     
