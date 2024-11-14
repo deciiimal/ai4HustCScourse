@@ -51,5 +51,6 @@
     "request": 20000,
     "downloadFile": 20000
   },
-  "debug": true
+  "debug": true,
+  "lazyCodeLoading": "requiredComponents"
 }

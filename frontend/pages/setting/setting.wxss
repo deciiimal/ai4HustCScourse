@@ -78,6 +78,7 @@
   background: white;
   padding: 40rpx; /* 增加上下左右的内边距 */
   border-radius: 8px;
+  
 }
 
 
@@ -180,6 +181,10 @@ input::placeholder {
   background-color: #4CAF50;
   color: white;
   padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100rpx;
   margin: 10px 0;
   width: 100%;
   border: none;
@@ -193,15 +198,21 @@ input::placeholder {
   height: 100px;
   margin: 10px 0;
   object-fit: cover;
+  border: solid rgb(185, 182, 182) 0.3px;
+  
 }
 
 /* 确认修改按钮 */
 .modal-confirm-btn {
-  background-color: #4CAF50;
+  background-color: #3b57a3;
   color: white;
   padding: 10px;
   width: 100%;
   border: none;
   cursor: pointer;
   border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100rpx;
 }

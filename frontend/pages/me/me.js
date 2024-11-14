@@ -111,7 +111,7 @@ Page({
           })
         }else{
           that.setData({
-            base64: "/images/huaxiaoke.png"
+            base64: "/images/huaxiaoke.jpg"
           })
         }
       }
