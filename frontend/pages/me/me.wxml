@@ -17,7 +17,7 @@
 
   <!-- 右侧齿轮图标 -->
   <view style="margin-left: 0rpx;">
-    <image src="/images/gear.webp" style="height: 60rpx; width: 60rpx;" bindtap="gotoSettings"></image>
+    <image src="../../images/gear.webp" style="height: 80rpx; width: 80rpx;" bindtap="gotoSettings"></image>
   </view>
 
 </view>

@@ -109,14 +109,14 @@ Page({
   
         // 检查文件是否是 .jpg 或 .png 格式
         const fileExtension = filePath.split('.').pop().toLowerCase();
-        if (fileExtension === 'png') {
+        if (fileExtension === 'png' || fileExtension === 'jpg' || fileExtension === 'jpeg') {
           wx.getFileSystemManager().readFile({
             filePath: filePath,
             encoding: 'base64',
             success: (res) => {
               // 设置头像的 Base64 数据
               this.setData({
-                base64: 'data:image/png;base64,' + res.data,
+                base64: 'data:image/'+fileExtension+';base64,' + res.data,
                 avatarBase64: res.data
               });
             }

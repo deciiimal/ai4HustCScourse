@@ -8,7 +8,7 @@
      <!-- 手机号 -->
      <view class="phoneCs">
        <image src="../../images/account.png" class="ph"></image>
-       <input placeholder="请输入账号" type="number" bindinput="content" value="{{username}}" />
+       <input placeholder="请输入账号" type="text" bindinput="content" value="{{username}}" />
      </view>
      <!-- 密码 -->
      <view class=passwordCs">

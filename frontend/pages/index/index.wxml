@@ -52,7 +52,7 @@
 
 <!-- 悬浮刷新旋钮 -->
 <view class="reload-btn" bindtap="reloadPage">
-  <image src="../../images/refresh.png" class="reload-icon" />
+  <image src="../../images/refresh.png" class="reload-icon" /></image>
 </view>
 
 <!-- Loading 弹窗 -->
