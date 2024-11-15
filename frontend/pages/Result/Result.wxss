@@ -85,6 +85,7 @@
   font-weight: bold;
   text-align: center;
   margin-bottom: 15rpx;
+  width: 200rpx;
 }
 .course-tag.core {
   background-color: #e74c3c; /* 红色背景 */

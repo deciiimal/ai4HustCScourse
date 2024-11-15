@@ -155,13 +155,13 @@ def get_lastweek_comments_likes_trend(courseid):
     comments_trend = [0] * 7
     likes_trend = [0] * 7
     comments = Comment.query.filter(Comment.courseid == courseid, Comment.create_time >= one_week_ago).all()
-    likes = CourseStar.query.filter(CourseStar.courseid == courseid, CourseStar.create_time >= one_week_ago).all()
+    likes = CourseStar.query.filter(CourseStar.courseid == courseid, CourseStar.create_at >= one_week_ago).all()
     for comment in comments:
         days_ago = (now - comment.create_time).days
         if days_ago < 7:
             comments_trend[6 - days_ago] += 1
     for like in likes:
-        days_ago = (now - like.create_time).days
+        days_ago = (now - like.create_at).days
         if days_ago < 7:
             likes_trend[6 - days_ago] += 1
     return make_success_response(

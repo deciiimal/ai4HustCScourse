@@ -13,7 +13,7 @@
       <view class="comment-box" style="display: block; background-color: rgb(234, 240, 240); margin-bottom: 20rpx;" bindtap="gotoCommentPage" data-commentid="{{item.commentid}}">
         <!-- 用户信息部分 -->
         <view class="user-info" style="display: flex; align-items: center; padding: 15rpx;">
-          <image src="{{item.image64 ? item.image64 : '../../images/user1.png'}}" style="width: 40rpx; height: 40rpx; margin-right: 10rpx; border-radius: 50%;"></image>
+          <image src="{{item.image64}}" style="width: 40rpx; height: 40rpx; margin-right: 10rpx; border-radius: 50%;"></image>
 
           <text style="font-size: 14px; color: gray;">来自 {{item.username}}</text>
           <text style="font-size: 14px; color: gray; margin-left: auto;">{{item.create_at}}</text>

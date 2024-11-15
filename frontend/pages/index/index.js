@@ -10,7 +10,7 @@ Page({
     defaultImageUrl: "https://gitee.com/c-zxiang/picture/raw/main/计算机组成原理.png",
     researchResult: [],
     loading: false,
-    searchKeyword: "1",
+    searchKeyword: '',
   },
   onTabItemTap: function(item) {
     console.log('切换 Tab 页:', item.index);  // 输出当前点击的 Tab 页索引

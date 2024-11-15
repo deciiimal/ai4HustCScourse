@@ -7,6 +7,7 @@ class CourseStar(db.Model):
     '''用户与课程的收藏关系'''
     userid = db.Column(db.Integer, db.ForeignKey('User.userid'), primary_key=True)
     courseid = db.Column(db.Integer, db.ForeignKey('Course.courseid'), primary_key=True)
+    create_at = db.Column(db.DateTime, default=datetime.now, primary_key=True)
 
 class CommentStar(db.Model):
     __tablename__ = 'CommentStar'

@@ -7,7 +7,7 @@
         <view class="bg-half"></view>
         <view class="answerer flex-wrp" style="position: relative; left: 0rpx; top: 38rpx">
             <view class="avatar flex-item">
-                <image src="../../images/user1.png"></image>
+                <image src="{{comment.avatar}}"></image>
             </view>
             <view class="answerer-info flex-item">
                 <text class="answerer-name" style="position: relative; left: -1rpx; top: 17rpx">来自用户 {{comment.username}}</text>
@@ -18,16 +18,16 @@
       <view style="margin: 20rpx; padding: 20rpx; border: 1px solid #e0e0e0; border-radius: 8rpx; background-color: #f9f9f9; display: flex; flex-direction: column; align-items: center; position: relative; left: 58rpx; top: -1rpx">
   <!-- 评分星级部分 -->
   <view style="display: flex; align-items: center; margin-bottom: 10rpx; width: 100%; justify-content: center;">
-    <text style="font-weight: bold; font-size: 28rpx; margin-right: 10rpx;">评分星级</text>
+    <text style="font-weight: bold; font-size: 40rpx; margin-right: 10rpx;">评分星级</text>
     <ratingStar number="{{comment.star}}" style="margin-left: auto;"></ratingStar>
     <text style="font-weight: bold; font-size: 28rpx; margin-left: 10rpx;">{{comment.star}}</text>  
   </view>
   
   <!-- 评价内容部分 -->
   <view style="width: 100%; margin-top: 15rpx;">
-    <text style="font-weight: bold; font-size: 28rpx; color: #333;">评价内容</text>
-    <view style="margin-top: 10rpx; padding: 15rpx; border-radius: 8rpx; background-color: #fff; text-align: left;">
-      <text style="font-size: 26rpx; color: #666;">{{comment.content}}</text>
+    <text style="font-weight: bold; font-size: 40rpx; color: #333;">评价内容</text>
+    <view style="margin-top: 20rpx; padding: 30rpx; border-radius: 8rpx; background-color: #fff; text-align: left;">
+      <text style="font-size: 34rpx; color: rgb(0, 0, 0);">{{comment.content}}</text>
     </view>
   </view>
 </view>

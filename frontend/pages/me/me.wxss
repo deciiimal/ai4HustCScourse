@@ -135,6 +135,7 @@
   font-weight: bold;
   text-align: center;
   margin-bottom: 15rpx;
+  width: 200rpx;
 }
 .course-tag.core {
   background-color: #e74c3c; /* 红色背景 */
@@ -238,4 +239,67 @@
   color: #2A8CE5; /* 激活时字体颜色 */
   font-weight: bold; /* 激活时加粗字体 */
   border-bottom: 6rpx solid #2A8CE5; /* 增加底部边框来突出显示 */
+}
+.comment-item {
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.comment-course-name {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.comment-content {
+  font-size: 16px;
+  color: rgb(119, 111, 111);
+  margin-bottom: 8px;
+}
+
+.comment-time {
+  font-size: 14px;
+  color: #999;
+  text-align: right;
+}
+/* 显示评论框的样式 */
+.comment-box {
+  margin: 15rpx;
+  padding: 10rpx;
+  background-color: #ffffff;
+  border-radius: 12rpx; /* 圆角边框 */
+  border: 1rpx solid #e0e0e0; /* 边框颜色 */
+  box-shadow: 0 4rpx 10rpx rgba(0, 0, 0, 0.1); /* 柔和的阴影效果 */
+}
+
+.comment-box .title {
+  font-weight: bold;
+  font-size: 30rpx;
+  color: #333333;
+  margin-bottom: 10rpx; /* 标题下方间隔 */
+}
+
+.comment-box .star-rating {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15rpx;
+}
+
+.comment-box .star-rating text {
+  font-size: 28rpx;
+  color: #ff9900; /* 星级颜色 */
+  margin-left: 8rpx;
+}
+
+.comment-box .content {
+  font-size: 26rpx;
+  color: #666666;
+  line-height: 1.5; /* 增加行高，文本更易读 */
+  background-color: #f7f7f7; /* 评价内容的背景色 */
+  padding: 15rpx;
+  border-radius: 8rpx; /* 内部内容区域的圆角 */
 }

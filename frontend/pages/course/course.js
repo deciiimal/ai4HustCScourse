@@ -12,7 +12,7 @@ function getImage64(userid) {
       data: {},
       success: (res) => {
         if (res.statusCode === 200) {
-          resolve(res.data.base64);
+          resolve(res.data.data.image);
         } else {
           reject('Failed to get image64');
         }
@@ -32,11 +32,12 @@ async function updateCommentsWithImage64(comments, that) {
   for (let comment of comments) {
     try {
       const image64 = await getImage64(comment.userid);  // 获取 image64
-      comment.image64 = image64;  // 将 image64 添加到 comment 中
+      comment.image64 = 'data:image/webp;base64,' + image64;  // 将 image64 添加到 comment 中
     } catch (error) {
       // console.error(`Failed to get image64 for ${comment.userid}: `, error);
-      comment.image64 = null;  // 如果获取失败，可以给一个默认值
+      comment.image64 = '../../images/user1.png';  // 如果获取失败，可以给一个默认值
     }
+    console.log(comment);
     updatedComments.push(comment);  // 将更新后的评论添加到新的列表中
   }
 
@@ -65,7 +66,7 @@ Page({
     textcolor1:'#014f8e',
     textcolor2:'#bfbfbf',
     x_data: ["day1","day2","day3","day4","day5","day6","day7"],
-    shoucang: ["1","3","5","4","1","3","2"],
+    shoucang: [0,0,0,0,0,0,0],
     cmtNum: [12,5,7,4,1,3,5],
     buttonDisalbed: false,
     chats: [
@@ -127,6 +128,21 @@ Page({
         console.error("课程评论请求失败：", error);
       }
     });
+    wx.request({
+      url: `http://${app.globalData.ip}:${app.globalData.port}/course/${e}/draw`,
+      method:"GET",
+      data:{},
+      header: {
+        'content-type': 'application/json' // 默认值
+        // 可以在这里设置额外的请求头
+      },
+      success(res){
+        that.setData({
+          shoucang: res.data.data.likes_trend,
+          cmtNum: res.data.data.comments_trend
+        });
+      }
+    })
     wx.request({
       url: `http://${app.globalData.ip}:${app.globalData.port}/course/${e}/stats`,
       method:'GET',

@@ -99,11 +99,6 @@ def get_messages():
     user_id = get_jwt_identity()
     
     messages = Message.query.filter_by(userid=user_id).all()
-    if not messages:
-        return make_error_response(
-            HTTPStatus.NOT_FOUND,
-            'No messages found for this user'
-        )
     
     messages_data = [
         {

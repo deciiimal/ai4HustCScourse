@@ -6,7 +6,8 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 
 from app import db
 from app.models import Message, Comment, Course, User, make_error_response, make_success_response, CommentStar
-
+from app.routes.image import get_avatar_by_userid
+import json
 
 comment_bp = Blueprint('comment', __name__)
 
@@ -19,12 +20,17 @@ def get_comment(comment_id):
             HTTPStatus.NOT_FOUND,
             f'no comment {comment_id}'
         )
-    
+    avatar = get_avatar_by_userid(comment.userid)
+    if avatar[1] == HTTPStatus.OK: 
+        avatar_data = json.loads(avatar[0].data)
+        avatar = 'data:image/webp;base64,' + avatar_data['data']['image']
+    else: avatar = "../../images/user1.png"
     return make_success_response(
         comment={
             "commentid": comment.commentid,
             "userid": comment.userid,
             "username": User.query.get(comment.userid).username,
+            "avatar": avatar,
             "courseid": comment.courseid,
             "parent_commentid": comment.parent_commentid,
             "likes_count": comment.likes_count,
@@ -211,9 +217,10 @@ def get_my_likes():
             'commentid': star.commentid,
             'courseid': Comment.query.get(star.commentid).courseid,
             'userid': Comment.query.get(star.commentid).userid,
+            'username': User.query.get(Comment.query.get(star.commentid).userid).username,
             'content': Comment.query.get(star.commentid).content,
             'star': Comment.query.get(star.commentid).star,
-            'created_at': Comment.query.get(star.commentid).create_time
+            'create_at': Comment.query.get(star.commentid).create_time
         }
         for star in stars
     ]

@@ -10,7 +10,7 @@ Page({
     base64: '',
     myComment: '',
     myLikeComment: {},
-
+    messages: [],
   },
   gotoCoursePage: function(event){
     const courseid = event.currentTarget.dataset.courseid; // 从事件对象的dataset中获取courseid
@@ -95,6 +95,21 @@ Page({
   onLoad: function () {
     var that = this;
     console.log("userInfo:", wx.getStorageSync('userInfo'));
+    wx.request({
+      url: `http://${app.globalData.ip}:${app.globalData.port}/user/messages`,
+      data: {},
+      method: "GET",
+      header:{
+        'content-type': 'application/json', // 默认值
+        // 可以在这里设置额外的请求头
+        'Authorization': "Bearer " + wx.getStorageSync('userInfo').token,
+      },
+      success:(res)=>{
+        that.setData({
+          messages: res.data.data.messages
+        })
+      }
+    })
     wx.request({
       url: `http://${app.globalData.ip}:${app.globalData.port}/avatar/d/${wx.getStorageSync('userInfo').userid}`,
       data: {},
@@ -238,7 +253,7 @@ Page({
         // 等待所有请求完成后，更新页面数据
         Promise.all(requests).then(() => {
             console.log("所有课程收藏状态已更新:", updatedCourses);
-
+            updatedCourses.sort((a, b) => a.courseid - b.courseid);
             // 更新页面数据
             that.setData({
                 course0: updatedCourses, // 更新课程列表数据
